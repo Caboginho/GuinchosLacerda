@@ -1,2 +1,7 @@
 .venv
 ngrok.exe 
+.gitignore
+gestao_guinchos.db
+anexos.zip
+anexos\
+\anexos
