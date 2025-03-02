@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../statics/css/styles.css">
+
+    <title>Guinchos</title>
+</head>
+<body>
+    <div style="display: flex;">
+        <div style="width: 33%;">
+            <h1>Cadastrar Guincho</h1>
+            <form id="guinchoForm" action="/cadastrar_guincho" method="post">
+                <input type="hidden" id="guincho_id" name="guincho_id">
+                <label for="placa">Placa:</label>
+                <input type="text" id="placa" name="placa" required><br>
+                <label for="modelo">Modelo:</label>
+                <input type="text" id="modelo" name="modelo" required><br>
+                <label for="motorista_id">Motorista:</label>
+                <select id="motorista_id" name="motorista_id">
+                    {% if motoristas %}
+                        {% for motorista in motoristas %}
+                        <option value="{{ motorista[0] }}">{{ motorista[1] }}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="">Nenhum motorista disponível</option>
+                    {% endif %}
+                </select><br>
+                <label for="secretaria_id">Secretária:</label>
+                <select id="secretaria_id" name="secretaria_id" required>
+                    {% if secretarias %}
+                        {% for secretaria in secretarias %}
+                        <option value="{{ secretaria[0] }}">{{ secretaria[1] }}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="">Nenhuma secretária disponível</option>
+                    {% endif %}
+                </select><br>
+                <label for="disponivel">Disponível:</label>
+                <select id="disponivel" name="disponivel" required>
+                    <option value="1">Sim</option>
+                    <option value="0">Não</option>
+                </select><br>
+                <button type="submit" id="cadastrarBtn" class="btn btn-primary">Cadastrar</button>
+                <button type="button" id="atualizarBtn" class="btn btn-warning" style="display: none;" onclick="atualizarGuincho()">Atualizar</button>
+                <button type="button" id="deletarBtn" class="btn btn-danger" style="display: none;" onclick="deletarGuincho()">Deletar</button>
+            </form>
+        </div>
+        <div style="width: 66%;">
+            <h1>Lista dos Guinchos</h1>
+            <input type="text" id="pesquisa" onkeyup="filtrarGuinchos()" placeholder="Pesquisar guinchos...">
+            <table border="1" id="guinchosTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Placa</th>
+                        <th>Modelo</th>
+                        <th>Motorista</th>
+                        <th>Secretaria</th>
+                        <th>Disponível</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for guincho in guinchos %}
+                    <tr onclick="projetarDadosGuincho(this)">
+                        <td>{{ guincho[0] }}</td>
+                        <td>{{ guincho[1] }}</td>
+                        <td>{{ guincho[2] }}</td>
+                        <td>{{ guincho[3] }}</td>
+                        <td>{{ guincho[4] }}</td>
+                        <td>{{ guincho[5] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script src="../statics/js/bootstrap.bundle.min.js"></script>
+    <script src="../statics/js/guinchos.js"></script>
+</body>
+</html>

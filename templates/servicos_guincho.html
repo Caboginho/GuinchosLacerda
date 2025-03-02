@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../statics/css/styles.css">
+    <title>Cadastro de Serviços de Guincho</title>
+</head>
+<body>
+    
+    <div style="display: flex;" >
+        <div style="width: 33%;">
+            <h1>Cadastrar Serviço de Guincho</h1>
+            <form id="servicoForm" action="/cadastrar_servico_guincho" method="post">
+                <input type="hidden" id="servico_id" name="servico_id">
+                <label for="data_solicitacao">Data da Solicitação:</label>
+                <input type="datetime-local" id="data_solicitacao" name="data_solicitacao" required><br>
+                <label for="guincho_id">Guincho:</label>
+                <select id="guincho_id" name="guincho_id" required>
+                    {% if guinchos %}
+                        {% for guincho in guinchos %}
+                        <option value="{{ guincho[0] }}">{{ guincho[1] }}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="">Nenhum guincho disponível</option>
+                    {% endif %}
+                </select><br>
+                <label for="tipo_solicitacao">Tipo de Solicitação:</label>
+                <select id="tipo_solicitacao" name="tipo_solicitacao" required>
+                    <option value="Particular">Particular</option>
+                    <option value="Seguradora">Seguradora</option>
+                </select><br>
+                <label for="protocolo">Protocolo:</label>
+                <input type="text" id="protocolo" name="protocolo"><br>
+                <label for="origem">Origem:</label>
+                <input type="text" id="origem" name="origem" required><br>
+                <label for="destino">Destino:</label>
+                <input type="text" id="destino" name="destino" required><br>
+                <label for="status">Status:</label>
+                <select id="status" name="status" required>
+                    <option value="Em andamento">Em andamento</option>
+                    <option value="Finalizado">Finalizado</option>
+                    <option value="Cancelado">Cancelado</option>
+                </select><br>
+                <table>
+                    <tr>
+                        <td><label for="anexos">Anexos:</label></td>
+                        <td><input type="file" id="anexos" name="anexos[]" multiple required></td>
+                    </tr>
+                </table>
+                <button type="submit">Cadastrar</button>
+                <button type="button" id="atualizarBtn" class="btn btn-warning" style="display: none;" onclick="atualizarServico()">Atualizar</button>
+                <button type="button" id="deletarBtn" class="btn btn-danger" style="display: none;" onclick="deletarServico()">Deletar</button>
+            </form>
+        </div>
+        <div style="width: 66%;">
+            <h1>Solicitações de Guincho</h1>
+            <input type="text" id="pesquisa" onkeyup="filtrarSolicitacoes()" placeholder="Pesquisar solicitações...">
+            <table border="1" id="tabelaServicos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data Solicitação</th>
+                        <th>Guincho</th>
+                        <th>Tipo Solicitação</th>
+                        <th>Protocolo</th>
+                        <th>Origem</th>
+                        <th>Destino</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for servico in servicos %}
+                    <tr onclick="projetarDadosServico({ servico })">
+                        <td>{{ servico[0] }}</td>
+                        <td>{{ servico[1] }}</td>
+                        <td>{{ servico[2] }}</td>
+                        <td>{{ servico[3] }}</td>
+                        <td>{{ servico[4] }}</td>
+                        <td>{{ servico[5] }}</td>
+                        <td>{{ servico[6] }}</td>
+                        <td>{{ servico[7] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="../statics/js/bootstrap.bundle.min.js"></script>
+    <script src="../statics/js/solicitacoes_guinchamento.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../statics/css/styles.css">
+
+    <title>Usuários</title>
+</head>
+<body>
+    <div style="display: flex;" >
+        <div style="width: 33%;">
+            <h1>Cadastrar Usuário</h1>
+            <form id="usuarioForm" action="/cadastrar_usuario" method="post">
+                <input type="hidden" id="usuario_id" name="usuario_id">
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required><br>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required><br>
+                <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha"><br>
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" name="tipo" required onchange="toggleSenhaObrigatoria()">
+                    <option value="Administrador">Administrador</option>
+                    <option value="Secretaria">Secretaria</option>
+                    <option value="Motorista">Motorista</option>
+                </select><br>
+                <label for="cnh">CNH:</label>
+                <input type="text" id="cnh" name="cnh"><br>
+                <label for="celular">Celular:</label>
+                <input type="text" id="celular" name="celular" required><br>
+                <label for="justificativa">Justificativa:</label>
+                <textarea id="justificativa" name="justificativa"></textarea><br>
+                <button type="submit" id="cadastrarBtn" class="btn btn-primary">Cadastrar</button>
+                <button type="button" id="atualizarBtn" class="btn btn-warning" style="display: none;" onclick="atualizarUsuario()">Atualizar</button>
+                <button type="button" id="deletarBtn" class="btn btn-danger" style="display: none;" onclick="deletarUsuario()">Deletar</button>
+            </form>
+        </div>
+        <div style="width: 66%;">
+            <h1>Usuários</h1>
+            <input type="text" id="pesquisa" onkeyup="filtrarUsuarios()" placeholder="Pesquisar usuários...">
+            <table border="1" id="tabelaUsuarios">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Tipo</th>
+                        <th>CNH</th>
+                        <th>Celular</th>
+                        <th>Justificativa</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for usuario in usuarios %}
+                    <tr onclick="projetarDadosUsuario(this)">
+                        <td>{{ usuario[0] }}</td>
+                        <td>{{ usuario[1] }}</td>
+                        <td>{{ usuario[2] }}</td>
+                        <td>{{ usuario[4] }}</td>
+                        <td>{{ usuario[5] }}</td>
+                        <td>{{ usuario[6] }}</td>
+                        <td>{{ usuario[7] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="../statics/js/bootstrap.bundle.min.js"></script>
+    <script src="../statics/js/usuarios.js"></script>
+</body>
+</html>

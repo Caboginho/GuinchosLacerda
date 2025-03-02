@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../statics/css/styles.css">
+    <link rel="icon" href="../statics/src/favicon.ico">
+    <title>Inicialização - Lacerda Guinchos</title>
+</head>
+<body>
+    <div class="container">
+        <img src="../statics/src/LOGOTIPO.png" alt="Logotipo Lacerda Guinchos" class="logo">
+        <h1>Inicializando...</h1>
+        <p>Aguarde enquanto verificamos o banco de dados e a integração com o Google Sheets.</p>
+    </div>
+    <script>
+        // Redireciona para a página de login após a inicialização
+        setTimeout(() => {
+            window.location.href = "/verificar_inicializacao";
+        }, 5000);
+    </script>
+    <script src="../statics/js/inicializacao.js"></script>
+    <script src="../statics/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

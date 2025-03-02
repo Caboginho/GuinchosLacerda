@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../statics/css/styles.css">
+    <title>Anexos - Lacerda Guinchos</title>
+</head>
+<body>
+    <div style="display: flex;">
+        <div style="width: 33%;">
+            <h1>Upload Anexos</h1>
+            <form id="anexoForm" action="/upload_anexos" method="post" enctype="multipart/form-data">
+                <input type="hidden" id="anexo_id" name="anexo_id">
+                <label for="transacao_id">Transação:</label>
+                <select id="transacao_id" name="transacao_id" required>
+                    {% if transacoes %}
+                        {% for transacao in transacoes %}
+                        <option value="{{ transacao[0] }}">{{ transacao[1] }}</option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="">Nenhuma transação disponível</option>
+                    {% endif %}
+                </select><br>
+                <label for="tipo">Tipo:</label>
+                <select id="tipo" name="tipo" required>
+                    <option value="atestado">Atestado</option>
+                    <option value="comprovante_guinchamento">Comprovante de Guincho</option>
+                    <option value="nota_fiscal">Nota Fiscal</option>
+                </select><br>
+                <label for="anexos">Anexos:</label>
+                <input type="file" id="anexos" name="anexos[]" multiple required><br>
+                <button type="submit">Enviar</button>
+                <button type="button" id="atualizarBtn" class="btn btn-warning" style="display: none;" onclick="atualizarAnexo()">Atualizar</button>
+                <button type="button" id="deletarBtn" class="btn btn-danger" style="display: none;" onclick="deletarAnexo()">Deletar</button>
+            </form>
+        </div>
+        <div style="width: 66%;">
+            <h1>Anexos</h1>
+            <input type="text" id="pesquisa" onkeyup="filtrarAnexos()" placeholder="Pesquisar anexos...">
+            <table border="1" id="tabelaAnexos">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Transação</th>
+                        <th>Caminho</th>
+                        <th>Tipo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for anexo in anexos %}
+                    <tr onclick="projetarDadosAnexo({{ anexo }})">
+                        <td>{{ anexo[0] }}</td>
+                        <td>{{ anexo[1] }}</td>
+                        <td>{{ anexo[2] }}</td>
+                        <td>{{ anexo[3] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="../statics/js/bootstrap.bundle.min.js"></script>
+    <script src="../statics/js/anexos.js"></script>
+</body>
+</html>
