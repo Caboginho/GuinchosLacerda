@@ -43,8 +43,6 @@ class BancoDados:
                     descricao TEXT NOT NULL,
                     metodo_pagamento TEXT CHECK(metodo_pagamento IN ('Pix', 'Cartão', 'Dinheiro')) NOT NULL,
                     secretaria_id INTEGER,
-                    guincho_id INTEGER,
-                    motorista_id INTEGER,
                     status TEXT CHECK(status IN ('Pago', 'Pendente', 'Parcelado')) NOT NULL,
                     FOREIGN KEY(secretaria_id) REFERENCES usuarios(id),
                     FOREIGN KEY(guincho_id) REFERENCES guinchos(id) ON DELETE CASCADE,

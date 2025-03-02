@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "lacerdaguinchos",
+  "private_key_id": "8e2aeaf562ce59676d8ed677f7e88935acc3fe44",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQCnHSFG9hW6ZJUf\ninsGFde8KKtMYuu2YaqtFPD7iJ33LG0ZIh440q40192L1H+SNW4KY5kvb/IfX3f/\nqXyCyrPkydnZOpIm+6H7uptnzYmnpzc7J5tB+QZbFQzBrWWpZMk4pXpIWNMZ3g4m\nQ6lkdhL4w/BAW+WSLnjFXsUgTzOLMZt0Nh1xClGbsngSi7iixZcpTkCIfXEFH1Ae\njK2oMflouP+B+ih1H9eUJOFIk+EfQQSrHCU/VjyQPmvMXxa1R0HgaTgXbMeWgfNZ\nPJ7GxBQ73VIZz//GRKRIV0O+5TQunGThn0zzyibl3fOeJijYyC37yUQA35xQ6czb\nOSEie2VfAgMBAAECggEAOWVi4YlxqwQSx7N7T3q/Duv08ZZkGM7wnOO9ZNbmUlea\n3O//60pI9PNTL0x7yE67javpmAZd5XKXt2KR1iYipSjCvr5EJkl0uA2+hGduqPtg\nl9uhkoYiLbRMHlUcvpJUHjWPizuevZqrx26jxlJbb790S9aEQbHeXwOOtusc6+g+\nchlj5sTiXkaDvjBAAlJrc1Iss72DnyScM9occekYw+zWOaHZi1yygu+BZFwz/YF8\np8mFQ8eZqJFkJmGfNV8hw0h9A3/XnL8iIhV5byfEaPO3QbjGluVjBBilzp8bcxaY\nqkx8qmyjybvXCIj7Njfu/0vG2AbBo/LMzbeZ6x2F+QKBgQDdQY5u51lYXO+AJujd\ny6CbDDRZGLHDI59wV36OD5TawdPVWsZzRApewuksv3UAzPyRi5RRdD2IgimBpXv3\nKG9wWbCm3sxDcIGdIGJJNybkRexTsMORFbHkIzPFmImgVcPY4k/QqpBbUlCI9TZl\niy7iXx5ZMyyCZduwQYgWXTSXfQKBgQDBWxDiV1JbsKSf3GVnLfZ7dnExfR9hzynJ\nRqusYpWyWxX0QAR7773vAxfgNdm2L9XPISTBKRvwke5UGJrimeJfDMwOv2bC/X4m\nGXeb1Dn1+7HeuDSzkdq7lDO5NTwhNsyy4jF7utFum3vY/6ssgNJ6PVb+GEFzzd3N\nEqcSZ7/fCwKBgQC22MZswKQFckg7D+zB3tYLTDq2psHBEl9g5+2eWSIa5rO5ThtS\nhphLV6h7Yn2++6h+X2tjJTz04xyKF8gqqS/vGS/zt4v277MttuWCvCFX5LE5OItm\nCxfIAY93bGfQKRCA3AY527sQvSXxCTS7FhrY2OKrtK7D1ImJT563XK9pwQKBgQCL\nFBnc9LqEwVZotnsp8GGvBM7+reV40S5ZXL/3SyIqHGJ6QeH308ZmuW7fE1z6MwYz\n6r8pQYybShyH2Prvq4isnePZZ8tezj+C4Casq8bVLKoQbada0rrm2f8qZSRPL7+l\nnBXDzej/Ck/XEm/pnu/GhYChXIkX5yh3bcdG8eGNaQKBgFD9QR4FNAkLs+FCUPnx\npIFNCuYrKT/JFmiDkEEf1Hze+l11IQznpgKFkqMKD1T/LUAxzKZK2RPEltuipqER\n+GNQdOrZFhivTXUzvVKRm6u127Di0pwZ8zm0cRqWRo4aFgS7waBFOwaGvsRBCpps\nJwVYKGjjSwVbv7zhsZSDV+Sb\n-----END PRIVATE KEY-----\n",
+  "client_email": "lacerdaguinchos@lacerdaguinchos.iam.gserviceaccount.com",
+  "client_id": "111853393335805627248",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/lacerdaguinchos%40lacerdaguinchos.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

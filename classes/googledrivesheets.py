@@ -2,17 +2,16 @@ import os
 import zipfile
 import time
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
+from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.http import MediaFileUpload
-import gspread.exceptions
 
 class GoogleDriveSheets:
     def __init__(self, credenciais_json: str, id_pasta_principal: str = "1YXTazfxjcKE8rmv_nnF80pQZMIor8XKz", nome_planilha: str = "LacerdaGuinchos_Database"):
         # Define os escopos de acesso
         self.worksheets_cache = {}  # novo cache
         scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-        creds = ServiceAccountCredentials.from_json_keyfile_name(credenciais_json, scope)
+        creds = service_account.Credentials.from_service_account_file(credenciais_json, scopes=scope)
         self.client = gspread.authorize(creds)
         # Inicializa o serviço do Google Drive para mover a planilha
         self.drive_service = build('drive', 'v3', credentials=creds)
