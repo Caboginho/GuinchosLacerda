@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Referência dinâmica para o CSS -->
+  <link rel="stylesheet" href="{{ url_for('static',filename='css/styles.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='src/favicon.ico') }}">
+  <title>ADM - Lacerda Guinchos</title>
+</head>
+<body>
+  <h1 style="text-align: center;">GUINCHOLACERDA</h1>
+    <div class="menu">
+      <div class="button-bar" style="width: 100%;">
+        <nav>
+          <button onclick="loadContent('/usuarios')">Usuários</button>
+          <button onclick="loadContent('/guinchos')">Guinchos</button>
+          <button onclick="loadContent('/transacoes')">Transações</button>
+          <button onclick="loadContent('/servicos_guincho')">Serviços de Guincho</button>
+          <button onclick="loadContent('/financeiro')">Financeiro</button>
+          <button onclick="logout()">Sair</button>
+        </nav>
+      </div>
+    </div> 
+  </div>
+  <iframe id="content" style="display: block; margin: 0 auto; overflow: auto;"></iframe>
+  
+  <!-- Inclusão dinâmica do arquivo JS -->
+  <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+  <script>
+    function resizeIframe(iframe) {
+      iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+      if (window.innerWidth > 800) {
+        iframe.style.width = '80%';
+        iframe.style.display = 'flex';
+        iframe.style.flexDirection = 'row';
+      } else {
+        iframe.style.width = '100%';
+        iframe.style.display = 'block';
+      }
+    }
+  </script>
+</body>
+</html>

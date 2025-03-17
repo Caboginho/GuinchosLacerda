@@ -2,72 +2,125 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../statics/css/styles.css">
-
-    <title>Usuários</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='src/favicon.ico') }}">
+    <title>{% if primeiro_cadastro %}Primeiro Cadastro{% else %}Usuários - Lacerda Guinchos{% endif %}</title>
 </head>
 <body>
-    <div style="display: flex;" >
-        <div style="width: 33%;">
-            <h1>Cadastrar Usuário</h1>
-            <form id="usuarioForm" action="/cadastrar_usuario" method="post">
-                <input type="hidden" id="usuario_id" name="usuario_id">
-                <label for="nome">Nome:</label>
-                <input type="text" id="nome" name="nome" required><br>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required><br>
-                <label for="senha">Senha:</label>
-                <input type="password" id="senha" name="senha"><br>
-                <label for="tipo">Tipo:</label>
-                <select id="tipo" name="tipo" required onchange="toggleSenhaObrigatoria()">
-                    <option value="Administrador">Administrador</option>
-                    <option value="Secretaria">Secretaria</option>
-                    <option value="Motorista">Motorista</option>
-                </select><br>
-                <label for="cnh">CNH:</label>
-                <input type="text" id="cnh" name="cnh"><br>
-                <label for="celular">Celular:</label>
-                <input type="text" id="celular" name="celular" required><br>
-                <label for="justificativa">Justificativa:</label>
-                <textarea id="justificativa" name="justificativa"></textarea><br>
-                <button type="submit" id="cadastrarBtn" class="btn btn-primary">Cadastrar</button>
-                <button type="button" id="atualizarBtn" class="btn btn-warning" style="display: none;" onclick="atualizarUsuario()">Atualizar</button>
-                <button type="button" id="deletarBtn" class="btn btn-danger" style="display: none;" onclick="deletarUsuario()">Deletar</button>
-            </form>
-        </div>
-        <div style="width: 66%;">
-            <h1>Usuários</h1>
-            <input type="text" id="pesquisa" onkeyup="filtrarUsuarios()" placeholder="Pesquisar usuários...">
-            <table border="1" id="tabelaUsuarios">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nome</th>
-                        <th>Email</th>
-                        <th>Tipo</th>
-                        <th>CNH</th>
-                        <th>Celular</th>
-                        <th>Justificativa</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for usuario in usuarios %}
-                    <tr onclick="projetarDadosUsuario(this)">
-                        <td>{{ usuario[0] }}</td>
-                        <td>{{ usuario[1] }}</td>
-                        <td>{{ usuario[2] }}</td>
-                        <td>{{ usuario[4] }}</td>
-                        <td>{{ usuario[5] }}</td>
-                        <td>{{ usuario[6] }}</td>
-                        <td>{{ usuario[7] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+    <div class="container">
+        {% if primeiro_cadastro %}
+            <!-- Template de primeiro cadastro -->
+            <div class="primeiro-cadastro">
+                <img src="{{ url_for('static', filename='src/LOGOTIPO.png') }}" alt="Logo" class="logo">
+                <h2>Cadastro do Administrador</h2>
+                <p>Configure o administrador principal do sistema.</p>
+                
+                <form action="{{ url_for('main_bp.primeiro_cadastro') }}" method="post">
+                    <input type="text" name="nome" placeholder="Nome completo" required>
+                    <input type="email" name="email" placeholder="E-mail" required>
+                    <input type="password" name="senha" placeholder="Senha" required>
+                    <input type="text" name="celular" placeholder="Celular" required>
+                    <input type="text" name="cnh" placeholder="CNH (opcional)">
+                    
+                    <!-- Campos ocultos -->
+                    <input type="hidden" name="tipo" value="Administrador">
+                    <input type="hidden" name="id" value="1">
+                    
+                    <button type="submit">Cadastrar Administrador</button>
+                </form>
+                
+                {% if erro %}
+                <div class="erro">{{ erro }}</div>
+                {% endif %}
+            </div>
+        {% else %}
+            <!-- Template de gestão de usuários -->
+            <div class="painel-usuarios">
+                <h2>Gestão de Usuários</h2>
+                <div class="form-section">
+                    <h1>Cadastrar Usuário</h1>
+                    <div class="content">
+                        <form id="usuarioForm" method="post">
+                            <input type="hidden" id="usuario_id" name="usuario_id" value="">
+                            <label for="nome">Nome:</label>
+                            <input type="text" id="nome" name="nome" required><br>
+                            <label for="email">Email:</label>
+                            <input type="email" id="email" name="email" required><br>
+                            <label for="senha">Senha:</label>
+                            <input type="password" id="senha" name="senha"><br>
+                            <label for="tipo">Tipo:</label>
+                            <select id="tipo" name="tipo" required onchange="toggleSenhaObrigatoria()">
+                                <option value="Administrador">Administrador</option>
+                                <option value="Secretaria">Secretaria</option>
+                                <option value="Motorista">Motorista</option>
+                            </select><br>
+                            <label for="cnh">CNH:</label>
+                            <input type="text" id="cnh" name="cnh"><br>
+                            <label for="celular">Celular:</label>
+                            <input type="text" id="celular" name="celular" required><br>
+                            <label for="justificativa">Justificativa:</label>
+                            <textarea id="justificativa" name="justificativa"> Offline </textarea><br>
+                            <div class="form-buttons">
+                                <button type="submit" id="cadastrarBtn" class="btn-primary">Cadastrar</button>
+                                <button type="button" id="atualizarBtn" class="btn-warning" style="display: none;">Atualizar</button>
+                                <button type="button" id="deletarBtn" class="btn-danger" style="display: none;">Deletar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <!-- Seção para listagem dos usuários -->
+                <div class="table-section">
+                    <h3>Lista de Usuários</h3>
+                    <div class="content">
+                        <input type="text" id="pesquisa" onkeyup="filtrarUsuarios()" placeholder="Pesquisar usuários...">
+                        
+                        <table id="tabelaUsuarios">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>Tipo</th>
+                                    <th>CNH</th>
+                                    <th>Celular</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if usuarios %}
+                                    {% for usuario in usuarios %}
+                                    <tr onclick="projetarDadosUsuario(this)" class="usuario-row">
+                                        <td>{{ usuario.id }}</td>
+                                        <td>{{ usuario.nome }}</td>
+                                        <td>{{ usuario.email }}</td>
+                                        <td>{{ usuario.tipo }}</td>
+                                        <td>{{ usuario.cnh or '' }}</td>
+                                        <td>{{ usuario.celular }}</td>
+                                        <td>{{ usuario.justificativa }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            {% if erro %}
+                                                {{ erro }}
+                                            {% else %}
+                                                Nenhum usuário cadastrado
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
     </div>
-    <script src="../statics/js/bootstrap.bundle.min.js"></script>
-    <script src="../statics/js/usuarios.js"></script>
+
+    {% if not primeiro_cadastro %}
+    <script src="{{ url_for('static', filename='js/usuarios.js') }}"></script>
+    {% endif %}
 </body>
 </html>

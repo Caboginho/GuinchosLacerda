@@ -2,82 +2,95 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../statics/css/styles.css">
-
-    <title>Guinchos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='src/favicon.ico') }}">
+    <title>Guinchos - Lacerda Guinchos</title>
 </head>
 <body>
-    <div style="display: flex;">
-        <div style="width: 33%;">
-            <h1>Cadastrar Guincho</h1>
-            <form id="guinchoForm" action="/cadastrar_guincho" method="post">
+    <div class="container">
+        <h2>Gestão de Guinchos</h2>
+
+        <!-- Formulário de cadastro/edição -->
+        <div class="form-section">
+            <h3>Cadastro/Edição de Guincho</h3>
+            <form id="guinchoForm" method="post">
                 <input type="hidden" id="guincho_id" name="guincho_id">
-                <label for="placa">Placa:</label>
-                <input type="text" id="placa" name="placa" required><br>
-                <label for="modelo">Modelo:</label>
-                <input type="text" id="modelo" name="modelo" required><br>
-                <label for="motorista_id">Motorista:</label>
-                <select id="motorista_id" name="motorista_id">
-                    {% if motoristas %}
-                        {% for motorista in motoristas %}
-                        <option value="{{ motorista[0] }}">{{ motorista[1] }}</option>
-                        {% endfor %}
-                    {% else %}
-                        <option value="">Nenhum motorista disponível</option>
-                    {% endif %}
-                </select><br>
-                <label for="secretaria_id">Secretária:</label>
-                <select id="secretaria_id" name="secretaria_id" required>
-                    {% if secretarias %}
+                <div class="form-group">
+                    <label for="modelo">Modelo:</label>
+                    <input type="text" id="modelo" name="modelo" required>
+                </div>
+                <div class="form-group">
+                    <label for="placa">Placa:</label>
+                    <input type="text" id="placa" name="placa" required>
+                </div>
+                <div class="form-group">
+                    <label for="secretaria_id">Secretária Responsável:</label>
+                    <select id="secretaria_id" name="secretaria_id" required>
+                        <option value="">Selecione uma secretária</option>
                         {% for secretaria in secretarias %}
-                        <option value="{{ secretaria[0] }}">{{ secretaria[1] }}</option>
+                            <option value="{{ secretaria.id }}">{{ secretaria.nome }}</option>
                         {% endfor %}
-                    {% else %}
-                        <option value="">Nenhuma secretária disponível</option>
-                    {% endif %}
-                </select><br>
-                <label for="disponivel">Disponível:</label>
-                <select id="disponivel" name="disponivel" required>
-                    <option value="1">Sim</option>
-                    <option value="0">Não</option>
-                </select><br>
-                <button type="submit" id="cadastrarBtn" class="btn btn-primary">Cadastrar</button>
-                <button type="button" id="atualizarBtn" class="btn btn-warning" style="display: none;" onclick="atualizarGuincho()">Atualizar</button>
-                <button type="button" id="deletarBtn" class="btn btn-danger" style="display: none;" onclick="deletarGuincho()">Deletar</button>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="motorista_id">Motorista:</label>
+                    <select id="motorista_id" name="motorista_id">
+                        <option value="">Selecione um motorista</option>
+                        {% for motorista in motoristas %}
+                            <option value="{{ motorista.id }}">{{ motorista.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="status">Status:</label>
+                    <select id="status" name="status" required>
+                        <option value="Disponível">Disponível</option>
+                        <option value="Em serviço">Em serviço</option>
+                        <option value="Manutenção">Manutenção</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button type="submit" id="cadastrarBtn" class="btn-primary">Cadastrar</button>
+                    <button type="submit" id="atualizarBtn" class="btn-warning" style="display: none;">Atualizar</button>
+                    <button type="button" id="deletarBtn" class="btn-danger" style="display: none;">Deletar</button>
+                </div>
             </form>
         </div>
-        <div style="width: 66%;">
-            <h1>Lista dos Guinchos</h1>
+
+        <!-- Tabela de guinchos -->
+        <div class="table-section">
             <input type="text" id="pesquisa" onkeyup="filtrarGuinchos()" placeholder="Pesquisar guinchos...">
-            <table border="1" id="guinchosTable">
+            <table id="tabelaGuinchos">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Placa</th>
                         <th>Modelo</th>
+                        <th>Placa</th>
+                        <th>Secretária</th>
                         <th>Motorista</th>
-                        <th>Secretaria</th>
-                        <th>Disponível</th>
+                        <th>Status</th>
+                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for guincho in guinchos %}
                     <tr onclick="projetarDadosGuincho(this)">
-                        <td>{{ guincho[0] }}</td>
-                        <td>{{ guincho[1] }}</td>
-                        <td>{{ guincho[2] }}</td>
-                        <td>{{ guincho[3] }}</td>
-                        <td>{{ guincho[4] }}</td>
-                        <td>{{ guincho[5] }}</td>
+                        <td>{{ guincho.id }}</td>
+                        <td>{{ guincho.modelo }}</td>
+                        <td>{{ guincho.placa }}</td>
+                        <td data-id="{{ guincho.secretaria_id }}">{{ guincho.secretaria_nome }}</td>
+                        <td data-id="{{ guincho.motorista_id }}">{{ guincho.motorista_nome }}</td>
+                        <td>{{ guincho.status }}</td>
+                        <td>
+                            <button type="button" onclick="event.stopPropagation(); projetarDadosGuincho(this.parentElement.parentElement)">Editar</button>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
-    
-    <script src="../statics/js/bootstrap.bundle.min.js"></script>
-    <script src="../statics/js/guinchos.js"></script>
+    <script src="{{ url_for('static', filename='js/guinchos.js') }}"></script>
 </body>
 </html>

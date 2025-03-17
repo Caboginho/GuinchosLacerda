@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secretaria - {{ nome }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='src/favicon.ico') }}">
+    <style>
+        main {
+            width: 100%;
+            height: calc(100vh - 120px); /* Ajusta altura considerando cabeçalho */
+            padding: 20px;
+        }
+
+        #conteudo {
+            width: 90%;
+            height: 100%;
+            border: none;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">GUINCHOLACERDA</h1>
+    <nav class="navbar">
+        <div class="menu">
+            <button onclick="carregarPagina('transacoes_pg')">Transações</button>
+            <button onclick="carregarPagina('servicos_guincho_pg')">Serviços</button>
+            <button onclick="window.location.href='/logout'">Sair</button>
+            <div class="user-info">
+                <span><h3>Secreatária(o): {{ nome }}.</h3></span>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <iframe id="conteudo" name="conteudo" src="about:blank" scrolling="auto"></iframe>
+    </main>
+
+    <script>
+        function carregarPagina(pagina) {
+            const iframe = document.getElementById('conteudo');
+            iframe.src = `/sec/${pagina}`;
+            
+            // Ajusta altura do iframe baseado no conteúdo
+            iframe.onload = function() {
+                iframe.style.height = iframe.contentWindow.document.documentElement.scrollHeight + 'px';
+                
+                // Adiciona listener para mudanças de tamanho do conteúdo
+                const resizeObserver = new ResizeObserver(entries => {
+                    iframe.style.height = entries[0].target.scrollHeight + 'px';
+                });
+                
+                resizeObserver.observe(iframe.contentWindow.document.body);
+            }
+        }
+
+        // Carrega transações por padrão
+        window.onload = function() {
+            carregarPagina('transacoes_pg');
+        }
+    </script>
+</body>
+</html>

@@ -1,123 +1,130 @@
-from flask import Blueprint, request, redirect, url_for, render_template, jsonify, session
-from classes.usuario import Administrador
+from flask import Blueprint, request, jsonify, render_template, session
+from classes.bancodados import BancoDados
+from classes.googledrivesheets import GoogleDriveSheets
+from classes.administrador import Administrador
 
 guinchos_bp = Blueprint('guinchos_bp', __name__)
 
-@guinchos_bp.route('/cadastrar_guincho', methods=['POST'])
+def get_admin():
+    """Retorna instância do admin com conexões"""
+    local_db = BancoDados()
+    cloud_db = GoogleDriveSheets(r"classes/lacerdaguinchos-8e2aeaf562ce.json")
+    return Administrador(
+        id=session['usuario_id'],
+        nome=session['nome'],
+        email=session['email'],
+        senha=None,
+        celular=session['celular'],
+        local_db=local_db,
+        cloud_db=cloud_db
+    )
+
+@guinchos_bp.route('/admin/guinchos', methods=['GET'])
+def listar_guinchos():
+    try:
+        admin = get_admin()
+        
+        # Define contexto (admin vê tudo, secretaria vê só seus guinchos)
+        if session.get('tipo') == 'Secretaria':
+            # Busca guinchos da secretaria específica
+            email = session.get('email')
+            guinchos = admin.ler_guinchos_secretaria(email)
+        else:
+            # Admin vê todos os guinchos
+            guinchos = admin.ler_registros('guinchos')
+
+        secretarias = admin.ler_registros('usuarios', {'tipo': 'Secretaria'})
+        motoristas = admin.ler_registros('usuarios', {'tipo': 'Motorista'})
+        
+        # Prepara dados para template
+        guinchos_dict = []
+        if not guinchos.empty:
+            guinchos_dict = guinchos.to_dict('records')
+            for guincho in guinchos_dict:
+                # Adiciona nomes de secretária e motorista
+                secretaria = secretarias[secretarias['id'] == guincho['secretaria_id']].iloc[0] if guincho['secretaria_id'] else None
+                motorista = motoristas[motoristas['id'] == guincho['motorista_id']].iloc[0] if guincho['motorista_id'] else None
+                
+                guincho['secretaria_nome'] = secretaria['nome'] if secretaria is not None else 'Não atribuído'
+                guincho['motorista_nome'] = motorista['nome'] if motorista is not None else 'Não atribuído'
+
+        return render_template('guinchos.html',
+                             guinchos=guinchos_dict,
+                             secretarias=secretarias.to_dict('records') if not secretarias.empty else [],
+                             motoristas=motoristas.to_dict('records') if not motoristas.empty else [])
+
+    except Exception as e:
+        print(f"Erro ao listar guinchos: {e}")
+        return render_template('guinchos.html', erro="Erro ao carregar dados")
+
+@guinchos_bp.route('/admin/guinchos/cadastrar', methods=['POST'])
 def cadastrar_guincho():
-    Adm = Administrador(
-    session['usuario_id'],
-    session['nome'],
-    session['email'],
-    session['senha'],
-    session['cnh'],
-    session['celular'],
-    session['justificativa']
-    )
-    dados_guincho = {
-        'placa': request.form['placa'],
-        'modelo': request.form['modelo'],
-        'motorista_id': request.form.get('motorista_id'),
-        'secretaria_id': request.form['secretaria_id'],
-        'disponivel': request.form['disponivel']
-    }
-    print(f"Recebendo dados do guincho: {dados_guincho}")
-    # Salva os dados no banco de dados local e na nuvem
-    Adm.criar_registro('guinchos', dados_guincho)
-    
-    return redirect(url_for('guinchos_bp.guinchos_pg'))
+    try:
+        if not request.headers.get('X-Requested-With'):
+            return jsonify({'error': 'Requisição inválida'}), 400
 
-@guinchos_bp.route('/atualizar_guincho', methods=['POST'])
+        admin = get_admin()
+        dados = {
+            'modelo': request.form.get('modelo', '').strip(),
+            'placa': request.form.get('placa', '').strip(),
+            'secretaria_id': request.form.get('secretaria_id'),
+            'motorista_id': request.form.get('motorista_id'),
+            'status': request.form.get('status')
+        }
+        
+        # Validações
+        if not dados['modelo'] or not dados['placa']:
+            return jsonify({'error': 'Modelo e placa são obrigatórios'}), 400
+            
+        # Remove IDs vazios
+        if not dados['secretaria_id']: 
+            dados.pop('secretaria_id')
+        if not dados['motorista_id']:
+            dados.pop('motorista_id')
+
+        guincho_id = admin.cadastrar_guincho(dados)
+        if guincho_id:
+            return jsonify({
+                'success': True,
+                'message': 'Guincho cadastrado com sucesso',
+                'id': guincho_id
+            })
+
+        return jsonify({'error': 'Erro ao cadastrar guincho'}), 400
+
+    except Exception as e:
+        print(f"Erro ao cadastrar guincho: {e}")
+        return jsonify({'error': str(e)}), 400
+
+@guinchos_bp.route('/admin/guinchos/atualizar', methods=['POST'])
 def atualizar_guincho():
-    Adm = Administrador(
-    session['usuario_id'],
-    session['nome'],
-    session['email'],
-    session['senha'],
-    session['cnh'],
-    session['celular'],
-    session['justificativa']
-    )
-    guincho_id = request.form['guincho_id']
-    dados_guincho = {
-        'placa': request.form['placa'],
-        'modelo': request.form['modelo'],
-        'motorista_id': request.form.get('motorista_id') if request.form.get('motorista_id') else None,
-        'secretaria_id': request.form['secretaria_id'],
-        'disponivel': request.form['disponivel']
-    }
-    print(f"Atualizando dados do guincho: {dados_guincho}")
-    # Atualiza os dados no banco de dados local
-    Adm.atualizar_registro('guinchos', guincho_id, dados_guincho)
-    return redirect(url_for('guinchos_bp.guinchos_pg'))
+    try:
+        guincho_id = request.form.get('guincho_id')
+        if not guincho_id:
+            return jsonify({'error': 'ID do guincho não fornecido'}), 400
 
-@guinchos_bp.route('/deletar_guincho', methods=['POST'])
-def deletar_guincho():
-    Adm = Administrador(
-    session['usuario_id'],
-    session['nome'],
-    session['email'],
-    session['senha'],
-    session['cnh'],
-    session['celular'],
-    session['justificativa']
-    )
-    guincho_id = request.form['guincho_id']
-    print(f"Deletando guincho com ID: {guincho_id}")
-    # Obter dados do guincho antes de deletar
-    guincho = Adm.ler_registros('guinchos', {'id': guincho_id})
-    if not guincho:
-        print(f"Guincho com ID {guincho_id} não encontrado.")
-        return redirect(url_for('guinchos_bp.guinchos_pg'))
-    # Deleta o guincho do banco de dados local e da nuvem
-    Adm.deletar_registro('guinchos', guincho_id)
-    return redirect(url_for('guinchos_bp.guinchos_pg'))
+        dados = {
+            'modelo': request.form['modelo'].strip(),
+            'placa': request.form['placa'].strip(),
+            'secretaria_id': request.form['secretaria_id'],
+            'motorista_id': request.form['motorista_id'],
+            'status': request.form['status']
+        }
 
-@guinchos_bp.route('/guinchos_pg')
-def guinchos_pg():
-    Adm = Administrador(
-    session['usuario_id'],
-    session['nome'],
-    session['email'],
-    session['senha'],
-    session['cnh'],
-    session['celular'],
-    session['justificativa']
-    )
-    guinchos = Adm.ler_registros('guinchos',{})
-    motoristas = Adm.ler_registros('usuarios', {'tipo': 'Motorista'})
-    secretarias = Adm.ler_registros('usuarios', {'tipo': 'Secretaria'})
-    return render_template('guinchos.html', guinchos=guinchos, motoristas=motoristas, secretarias=secretarias)
+        admin = get_admin()
+        admin.atualizar_guincho(int(guincho_id), dados)
+        admin.sincronizar_guincho(int(guincho_id))
+        
+        return jsonify({'message': 'Guincho atualizado com sucesso'})
 
-@guinchos_bp.route('/guinchos_secretaria/<int:secretaria_id>')
-def guinchos_secretaria(secretaria_id):
-    Adm = Administrador(
-    session['usuario_id'],
-    session['nome'],
-    session['email'],
-    session['senha'],
-    session['cnh'],
-    session['celular'],
-    session['justificativa']
-    )
-    guinchos = Adm.ler_registros('guinchos', {'secretaria_id': secretaria_id})
-    return jsonify(guinchos=[{'id': g[0], 'placa': g[1]} for g in guinchos])
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400
 
-@guinchos_bp.route('/motorista_guincho/<int:guincho_id>')
-def motorista_guincho(guincho_id):
-    Adm = Administrador(
-    session['usuario_id'],
-    session['nome'],
-    session['email'],
-    session['senha'],
-    session['cnh'],
-    session['celular'],
-    session['justificativa']
-    )
-    guincho = Adm.ler_registros('guinchos', {'id': guincho_id})
-    if guincho:
-        motorista_id = guincho[0][3]
-        motorista = Adm.ler_registros('usuarios', {'id': motorista_id})
-        if motorista:
-            return jsonify(motorista=motorista[0][1])
-    return jsonify(motorista="")
+@guinchos_bp.route('/admin/guinchos/deletar/<int:id_guincho>', methods=['POST'])
+def deletar_guincho(id_guincho):
+    try:
+        admin = get_admin()
+        admin.deletar_guincho(id_guincho)
+        return jsonify({'message': 'Guincho removido com sucesso'})
+    except Exception as e:
+        return jsonify({'error': str(e)}), 400

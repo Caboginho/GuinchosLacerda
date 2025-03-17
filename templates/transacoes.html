@@ -2,81 +2,134 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../statics/css/styles.css">
-    
-    <title>Transações</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Referência dinâmica para o CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='src/favicon.ico') }}">
+    <title>Transações - Lacerda Guinchos</title>
 </head>
 <body>
-    <div style="display: flex;" >
-        <div style="width: 33%;">
-            <h1>Cadastrar Transação</h1>
-            <form id="transacaoForm" action="/cadastrar_transacao" method="post">
-                <input type="hidden" id="transacao_id" name="transacao_id">
-                <label for="data">Data:</label>
-                <input type="date" id="data" name="data" required><br>
-                <label for="valor">Valor:</label>
-                <input type="number" id="valor" name="valor" step="0.01" required><br>
-                <label for="categoria">Categoria:</label>
-                <input type="text" id="categoria" name="categoria" required><br>
-                <label for="descricao">Descrição:</label>
-                <textarea id="descricao" name="descricao" required></textarea><br>
-                <label for="metodo_pagamento">Método de Pagamento:</label>
-                <select id="metodo_pagamento" name="metodo_pagamento" required>
-                    <option value="Pix">Pix</option>
-                    <option value="Cartão">Cartão</option>
-                    <option value="Dinheiro">Dinheiro</option>
-                </select><br>
-                
-                <label for="status">Status:</label>
-                <select id="status" name="status" required>
-                    <option value="Pago">Pago</option>
-                    <option value="Pendente">Pendente</option>
-                    <option value="Parcelado">Parcelado</option>
-                </select><br>
-                <table>
-                    <tr>
-                        <td><label for="anexos">Anexos:</label></td>
-                        <td><input type="file" id="anexos" name="anexos[]" multiple required></td>
-                    </tr>
-                </table>
-                <button type="submit">Cadastrar</button>
-                <button type="button" id="atualizarBtn" class="btn btn-warning" style="display: none;" onclick="atualizarTransacao()">Atualizar</button>
-                <button type="button" id="deletarBtn" class="btn btn-danger" style="display: none;" onclick="deletarTransacao()">Deletar</button>
-            </form>
-        </div>
-        <div style="width: 66%;">
-            <h1>Transações</h1>
-            <input type="text" id="pesquisa" onkeyup="filtrarTransacoes()" placeholder="Pesquisar transações...">
-            <table border="1" id="tabelaTransacoes">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Data</th>
-                        <th>Valor</th>
-                        <th>Categoria</th>
-                        <th>Descrição</th>
-                        <th>Método de Pagamento</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for transacao in transacoes %}
-                    <tr onclick="projetarDadosTransacao({ transacao })">
-                        <td>{{ transacao[0] }}</td>
-                        <td>{{ transacao[1] }}</td>
-                        <td>{{ transacao[2] }}</td>
-                        <td>{{ transacao[3] }}</td>
-                        <td>{{ transacao[4] }}</td>
-                        <td>{{ transacao[5] }}</td>
-                        <td>{{ transacao[6] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+  <div class="container">
+    <div class="form-section">
+      <h1 >Cadastrar Transação</h1>
+      <div class="content">
+        <form id="transacaoForm" action="{{ '/sec/cadastrar_transacao' if session.tipo == 'Secretaria' else '/admin/transacoes/cadastrar' }}" method="post" enctype="multipart/form-data">
+          <input type="hidden" id="transacao_id" name="transacao_id">
+          <label for="data">Data:</label>
+          <input type="date" id="data" name="data" required><br>
+          <label for="valor">Valor:</label>
+          <input type="number" id="valor" name="valor" step="0.01" required><br>
+          <label for="categoria">Categoria:</label>
+          <select id="categoria" name="categoria" required>
+            <option value="guinchamento">Guinchamento</option>
+            <option value="despesa_fixa">Despesas fixa</option>
+            <option value="despesa_variavel">Despesas variáveis</option>
+            <option value="entrada">Entrada</option>
+          </select><br>
+          <label for="descricao">Descrição:</label>
+          <textarea id="descricao" name="descricao" required></textarea><br>
+          <label for="metodo_pagamento">Método de Pagamento:</label>
+          <select id="metodo_pagamento" name="metodo_pagamento" required>
+            <option value="Pix">Pix</option>
+            <option value="Cartão">Cartão</option>
+            <option value="Dinheiro">Dinheiro</option>
+          </select><br>
+          <label for="status">Status:</label>
+          <select id="status" name="status" required>
+            <option value="Pago">Pago</option>
+            <option value="Pendente">Pendente</option>
+            <option value="Parcelado">Parcelado</option>
+          </select><br>
+          {% if session.tipo == 'Administrador' %}
+          <label for="secretaria_id">Secretaria:</label>
+          <select id="secretaria_id" name="secretaria_id" required onchange="atualizarTabelaPorSecretaria(this.value)">
+            <option value="">Selecione uma secretaria</option>
+            {% for secretaria in secretarias %}
+            <option value="{{ secretaria.id }}">{{ secretaria.nome }}</option>
+            {% endfor %}
+          </select><br>
+          {% endif %}
+          <table>
+            <tr>
+              <td><label for="anexos">Anexos:</label></td>
+              <td><input type="file" id="anexos" name="anexos[]" multiple></td>
+            </tr>
+          </table>
+          <button type="submit" id="cadastrarBtn" class="btn btn-primary">Cadastrar</button>
+          <button type="button" id="atualizarBtn" class="btn btn-warning" style="display: none;" onclick="atualizarTransacao()">Atualizar</button>
+          <button type="button" id="deletarBtn" class="btn btn-danger" style="display: none;" onclick="deletarTransacao()">Deletar</button>
+        </form>
+      </div>
     </div>
-    <script src="../statics/js/bootstrap.bundle.min.js"></script>
-    <script src="../statics/js/transacoes.js"></script>
+    <div class="table-section">
+      <h1>Tabela Transações</h1>  
+      <div class="content">
+        <!-- Seção de filtros: data e status -->
+        <div id="filtros" style="margin-bottom: 10px; display: flex; gap: 10px;">
+          <div>
+            <label for="filtroDataInicio">Data Início:</label>
+            <input type="date" id="filtroDataInicio" name="filtroDataInicio">
+          </div>
+          <div>
+            <label for="filtroDataFim">Data Fim:</label>
+            <input type="date" id="filtroDataFim" name="filtroDataFim">
+          </div>
+          <div>
+            <label for="filtroStatus">Status:</label>
+            <select id="filtroStatus" name="filtroStatus">
+              <option value="">Todos</option>
+              <option value="Pago">Pago</option>
+              <option value="Pendente">Pendente</option>
+              <option value="Parcelado">Parcelado</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Campo para pesquisa textual -->
+        <input type="text" id="pesquisa" onkeyup="filtrarTransacoes()" placeholder="Pesquisar transações...">
+        
+        <table border="1" id="tabelaTransacoes">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Data</th>
+              <th>Valor</th>
+              <th>Categoria</th>
+              <th>Descrição</th>
+              <th>Método de Pagamento</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if not transacoes %}
+            <tr>
+              <td colspan="7">Nenhuma transação disponível</td>
+            </tr>
+            {% else %}
+              {% for transacao in transacoes %}
+              <tr onclick="projetarDadosTransacao(this)">
+                <td>{{ transacao['id'] }}</td>
+                <td>{{ transacao['data'] }}</td>
+                <td>{{ transacao['valor'] }}</td>
+                <td>{{ transacao['categoria'] }}</td>
+                <td>{{ transacao['descricao'] }}</td>
+                <td>{{ transacao['metodo_pagamento'] }}</td>
+                <td>{{ transacao['status'] }}</td>
+              </tr>
+              {% endfor %}
+            {% endif %}
+          </tbody>
+        </table>
+        
+        <!-- Área de visualização dos anexos -->
+        <div id="anexosDiv" style="display: none; margin-top: 15px;">
+          <h2>Anexos</h2>
+          <div id="anexosContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Importação do script específico para transações -->
+  <script src="{{ url_for('static', filename='js/transacoes.js') }}"></script>
 </body>
 </html>

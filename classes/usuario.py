@@ -1,25 +1,68 @@
-# ==================== Definição das Entidades ====================
-from classes.bancodados import BancoDados
-from classes.googledrivesheets import GoogleDriveSheets
 import bcrypt
+
 class Usuario:
-    def __init__(self, id= None, nome = None, email=None, senha=None, cnh=None, celular=None, justificativa=None):
+    def __init__(self, id: int = None, nome: str = None, email: str = None, senha: str = None, tipo: str = None,
+                 cnh: str = None, celular: str = None, justificativa: str = None):
         self.id = id
         self.nome = nome
-        self.email = email if email else None
-        self.senha = senha if senha else None
-        self.tipo = None  # Será definido nas subclasses
-        self.cnh = cnh if cnh else None
-        self.celular = celular if celular else None
-        self.justificativa = justificativa if justificativa else None
-        self.banco = BancoDados()
-        self.google = GoogleDriveSheets(r"classes\lacerdaguinchos-8e2aeaf562ce.json")
+        self.email = email
+        self.senha = senha
+        self.tipo = tipo
+        self.cnh = cnh
+        self.celular = celular
+        self.justificativa = justificativa
+
+    def __str__(self):
+        return f"Usuario({self.tipo}): {self.nome} - {self.email}"
 
     def hash_senha(self, senha: str) -> str:
-        return bcrypt.hashpw(senha.encode(), bcrypt.gensalt()).decode()
+        """
+        Gera um hash bcrypt para a senha fornecida.
+        :param senha: Senha em texto plano
+        :return: Hash da senha
+        """
+        try:
+            # Garante que a senha é uma string válida
+            if not senha:
+                raise ValueError("Senha não pode ser vazia")
+                
+            # Gera o salt e o hash
+            senha_bytes = senha.encode('utf-8')
+            salt = bcrypt.gensalt()
+            hash_bytes = bcrypt.hashpw(senha_bytes, salt)
+            
+            # Retorna o hash como string
+            return hash_bytes.decode('utf-8')
+            
+        except Exception as e:
+            print(f"Erro ao gerar hash da senha: {e}")
+            raise
 
     def verificar_senha(self, senha: str, hash_senha: str) -> bool:
-        return bcrypt.checkpw(senha.encode(), hash_senha.encode()) 
+        """
+        Verifica se a senha fornecida corresponde ao hash armazenado.
+        :param senha: Senha em texto plano
+        :param hash_senha: Hash da senha armazenada
+        :return: True se a senha corresponder, False caso contrário
+        """
+        try:
+            # Garante que a senha e o hash são strings válidas
+            if not senha or not hash_senha:
+                print("Senha ou hash vazios")
+                return False
+                
+            # Garante que estamos trabalhando com bytes
+            senha_bytes = senha.encode('utf-8')
+            hash_bytes = hash_senha.encode('utf-8')
+            
+            # Faz a verificação
+            resultado = bcrypt.checkpw(senha_bytes, hash_bytes)
+            print(f"Verificação de senha: {'sucesso' if resultado else 'falha'}")
+            return resultado
+            
+        except Exception as e:
+            print(f"Erro ao verificar senha: {e}")
+            return False
     
     def getId(self):
         return self.id
@@ -40,10 +83,10 @@ class Usuario:
         self.email = email
 
     def getSenha(self):
-        return self.senha
+        return self.hash_senha(self.senha)
 
     def setSenha(self, senha):
-        self.senha = senha
+        self.senha = self.hash_senha(senha)
 
     def getTipo(self):
         return self.tipo
@@ -69,76 +112,7 @@ class Usuario:
     def setJustificativa(self, justificativa):
         self.justificativa = justificativa
 
-    def salvar(self, banco, google):
-        dados = {
-            "nome": self.nome,
-            "email": self.email,
-            "senha": self.senha,
-            "tipo": self.tipo,
-            "cnh": self.cnh,
-            "celular": self.celular,
-            "justificativa": self.justificativa
-        }
-        self.banco.inserir("usuarios", dados)
-        # Atualiza a planilha "usuarios"
-        self.google.inserir("usuarios", [list(dados.values())])
 
-class Administrador(Usuario):
-    def __init__(self,id = None, nome=None, email=None, senha=None, cnh=None, celular=None, justificativa=None):
-        super().__init__(id,nome, email, senha, cnh, celular, justificativa)
-        self.tipo = "Administrador"
-        
-    def criar_registro(self, tabela, dados):
-        self.banco.inserir(tabela, dados)
-        self.google.inserir(tabela, [list(dados.values())])
-        
-    def ler_registros(self, tabela, filtros):
-        if filtros == {}:
-            return self.banco.ler(tabela)
-        return self.banco.ler(tabela, filtros)
-    
-    def atualizar_registro(self, tabela, id_registro, novos_dados):
-        self.banco.atualizar(tabela, id_registro, novos_dados)
-        self.google.atualizar(tabela, id_registro, novos_dados)
-        
-    def deletar_registro(self, tabela, id_registro):
-        self.banco.deletar(tabela, id_registro)
-        self.google.deletar_linha(tabela, id_registro+1)
-    
-    def atualizar_celula(self, nome_planilha, linha, coluna, valor):
-        self.banco.atualizar_celula(nome_planilha, linha, coluna, valor)
-        self.google.atualizar_celula(nome_planilha, linha, coluna, valor)
 
-class Secretaria(Usuario):
-    def __init__(self, nome, email=None, senha=None, cnh=None, celular=None, justificativa=None):
-        super().__init__(nome, email, senha, cnh, celular, justificativa)
-        self.tipo = "Secretaria"
-        self.logada = False
-    
-    def login(self, senha):
-        if self.senha == senha:
-            self.logada = True
-            print(f"{self.nome} logada com sucesso!")
-        else:
-            print("Senha incorreta.")
-    
-    def logout(self):
-        self.logada = False
-        print(f"{self.nome} deslogada.")
-    
-    def criar_transacao(self, transacao):
-        transacao.salvar(self.banco, self.google)
-    
-    def criar_servico_guincho(self, servico):
-        servico.salvar(self.banco, self.google)
-    
-    def atualizar_celula(self, nome_planilha, linha, coluna, valor):
-        self.banco.atualizar_celula(nome_planilha, linha, coluna, valor)
-        self.google.atualizar_celula(nome_planilha, linha, coluna, valor)
 
-class Motorista(Usuario):
-    def __init__(self, nome, email=None, senha=None, cnh=None, celular=None, justificativa=None):
-        super().__init__(nome, email, senha, cnh, celular, justificativa)
-        self.tipo = "Motorista"
-    # Motoristas possuem apenas atributos, sem métodos CRUD.
 

@@ -1,0 +1,372 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: auto; /* Permitir rolagem se o conteúdo for maior que a altura da tela */
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.menu {
+    text-align: center;
+    margin-bottom: 10px;
+}
+.button-bar {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+iframe {
+    flex: 1;
+    width: 100%;
+    border: none;
+    align-self: flex-start;
+    display: block;
+    margin: 0 auto;
+    height: auto; /* Permitir que a altura do iframe se ajuste ao conteúdo */
+}
+
+.primeiro-cadastro {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.primeiro-cadastro h2 {
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.primeiro-cadastro p {
+    color: #666;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.primeiro-cadastro form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.primeiro-cadastro input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.primeiro-cadastro button {
+    background: #007bff;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.primeiro-cadastro button:hover {
+    background: #0056b3;
+}
+
+.erro {
+    color: #dc3545;
+    padding: 10px;
+    margin-top: 10px;
+    background: #f8d7da;
+    border-radius: 4px;
+    text-align: center;
+}
+
+/* Estilo para o formulário de login */
+.login-form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.login-form img.logo {
+    max-width: 200px;
+    margin: 0 auto 20px;
+    display: block;
+}
+
+.login-form h2 {
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.login-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.login-form input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.login-form button {
+    background: #007bff;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.login-form button:hover {
+    background: #0056b3;
+}
+
+/* Estilos para o financeiro */
+.resumo-financeiro {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex: 1;
+}
+
+.card h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+}
+
+.card p {
+    margin: 0;
+    font-size: 24px;
+    color: #007bff;
+}
+
+.graficos {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.grafico {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    height: 300px;
+}
+
+.grafico h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+}
+
+@media (max-width: 768px) {
+    .graficos {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 800px) {
+    .container {
+        flex-direction: row;
+    }
+    iframe {
+        width: 90%;
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+/* Estilos para formulários */
+.form-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+/* Estilos para tabelas */
+.table-section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table-section input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Botões */
+.btn-primary {
+    background: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: #0056b3;
+}
+
+.btn-danger:hover {
+    background: #c82333;
+}
+
+/* Estilos específicos para gestão de usuários */
+.usuarios-container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.acoes-usuario {
+    margin: 20px 0;
+}
+
+.acoes-usuario button {
+    margin-right: 10px;
+}
+
+.tabela-usuarios {
+    margin-top: 20px;
+}
+
+.tabela-usuarios tr {
+    cursor: pointer;
+}
+
+.tabela-usuarios tr:hover {
+    background-color: #f5f5f5;
+}
+
+.form-buttons {
+    margin-top: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+#atualizarBtn, #deletarBtn {
+    display: none;
+}
+
+/* Estilos específicos para tabela de usuários */
+.table-section {
+    margin-top: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.table-section table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.table-section th,
+.table-section td {
+    padding: 12px 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.table-section th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+}
+
+.table-section tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+.table-section tr.selected {
+    background-color: #e3f2fd;
+}

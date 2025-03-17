@@ -1,7 +1,9 @@
 .venv
+venv\
 ngrok.exe 
 .gitignore
 gestao_guinchos.db
 anexos.zip
 anexos\
 \anexos"classes/lacerdaguinchos-8e2aeaf562ce.json" 
+requirements.txt

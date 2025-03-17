@@ -3,24 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../statics/css/styles.css">
-    <link rel="icon" href="../statics/src/favicon.ico">
-    <title>Inicialização - Lacerda Guinchos</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <title>Iniciando Sistema</title>
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .logo {
+            max-width: 80%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        .progress-container {
+            width: 100%;
+            max-width: 400px;
+            margin: 50px auto;
+            text-align: center;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress {
+            width: 0%;
+            height: 100%;
+            background-color: #4CAF50;
+            transition: width 0.5s;
+        }
+        .status-text {
+            margin-top: 10px;
+            font-size: 16px;
+            color: #666;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <img src="../statics/src/LOGOTIPO.png" alt="Logotipo Lacerda Guinchos" class="logo">
-        <h1>Inicializando...</h1>
-        <p>Aguarde enquanto verificamos o banco de dados e a integração com o Google Sheets.</p>
+        <img src="{{ url_for('static', filename='src/LOGOTIPO.png') }}" alt="Logo" class="logo">
+        <div class="progress-container">
+            <h2>Verificando estruturas...</h2>
+            <div class="progress-bar">
+                <div id="progress" class="progress"></div>
+            </div>
+        </div>
+        <div id="status-text" class="status-text">Iniciando sistema...</div>
     </div>
     <script>
-        // Redireciona para a página de login após a inicialização
-        setTimeout(() => {
-            window.location.href = "/verificar_inicializacao";
-        }, 5000);
+        const eventSource = new EventSource("{{ url_for('main_bp.verificar_estruturas') }}");
+        const statusText = document.getElementById('status-text');
+        let redirectAttempted = false;
+        
+        eventSource.onmessage = function(event) {
+            const data = event.data;
+            
+            if (data.startsWith('redirect_') && !redirectAttempted) {
+                redirectAttempted = true;
+                eventSource.close();
+                const route = data.replace('redirect_', '');
+                statusText.textContent = `Redirecionando para ${route}...`;
+                window.location.href = '/' + route;
+            } else {
+                document.getElementById('progress').style.width = data + '%';
+                if (data === '25') statusText.textContent = 'Verificando conexão...';
+                if (data === '50') statusText.textContent = 'Verificando estruturas locais...';
+                if (data === '75') statusText.textContent = 'Sincronizando dados...';
+            }
+        };
+        
+        eventSource.onerror = function() {
+            if (!redirectAttempted) {
+                redirectAttempted = true;
+                eventSource.close();
+                statusText.textContent = 'Erro de conexão, redirecionando...';
+                window.location.href = '/primeiro_cadastro';
+            }
+        };
     </script>
-    <script src="../statics/js/inicializacao.js"></script>
-    <script src="../statics/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

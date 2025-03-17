@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='src/favicon.ico') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Financeiro - Lacerda Guinchos</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Gestão Financeira</h2>
+
+        {% if erro %}
+        <div class="erro">{{ erro }}</div>
+        {% endif %}
+
+        <!-- Resumo financeiro -->
+        <div class="resumo-financeiro">
+            <div class="card">
+                <h3>Total de Receitas</h3>
+                <p id="totalReceitas">R$ {{ "%.2f"|format(dados.total_receitas) }}</p>
+            </div>
+            <div class="card">
+                <h3>Total de Serviços</h3>
+                <p id="totalServicos">{{ dados.total_servicos }}</p>
+            </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="graficos">
+            <div class="grafico">
+                <h3>Receitas por Mês</h3>
+                <canvas id="graficoReceitas"></canvas>
+            </div>
+            <div class="grafico">
+                <h3>Serviços por Tipo</h3>
+                <canvas id="graficoServicos"></canvas>
+            </div>
+        </div>
+
+        <!-- Dados para JavaScript -->
+        <script id="dadosFinanceiros" type="application/json">
+            {{ dados|tojson|safe }}
+        </script>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/financeiro.js') }}"></script>
+</body>
+</html>

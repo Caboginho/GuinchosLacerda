@@ -3,91 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../statics/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../statics/css/styles.css">
-    <title>Cadastro de Serviços de Guincho</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='src/favicon.ico') }}">
+    <title>Serviços de Guincho</title>
 </head>
 <body>
-    
-    <div style="display: flex;" >
-        <div style="width: 33%;">
-            <h1>Cadastrar Serviço de Guincho</h1>
-            <form id="servicoForm" action="/cadastrar_servico_guincho" method="post">
-                <input type="hidden" id="servico_id" name="servico_id">
-                <label for="data_solicitacao">Data da Solicitação:</label>
-                <input type="datetime-local" id="data_solicitacao" name="data_solicitacao" required><br>
-                <label for="guincho_id">Guincho:</label>
-                <select id="guincho_id" name="guincho_id" required>
-                    {% if guinchos %}
-                        {% for guincho in guinchos %}
-                        <option value="{{ guincho[0] }}">{{ guincho[1] }}</option>
-                        {% endfor %}
-                    {% else %}
-                        <option value="">Nenhum guincho disponível</option>
-                    {% endif %}
-                </select><br>
-                <label for="tipo_solicitacao">Tipo de Solicitação:</label>
-                <select id="tipo_solicitacao" name="tipo_solicitacao" required>
-                    <option value="Particular">Particular</option>
-                    <option value="Seguradora">Seguradora</option>
-                </select><br>
-                <label for="protocolo">Protocolo:</label>
-                <input type="text" id="protocolo" name="protocolo"><br>
-                <label for="origem">Origem:</label>
-                <input type="text" id="origem" name="origem" required><br>
-                <label for="destino">Destino:</label>
-                <input type="text" id="destino" name="destino" required><br>
-                <label for="status">Status:</label>
-                <select id="status" name="status" required>
-                    <option value="Em andamento">Em andamento</option>
-                    <option value="Finalizado">Finalizado</option>
-                    <option value="Cancelado">Cancelado</option>
-                </select><br>
-                <table>
-                    <tr>
-                        <td><label for="anexos">Anexos:</label></td>
-                        <td><input type="file" id="anexos" name="anexos[]" multiple required></td>
-                    </tr>
-                </table>
-                <button type="submit">Cadastrar</button>
-                <button type="button" id="atualizarBtn" class="btn btn-warning" style="display: none;" onclick="atualizarServico()">Atualizar</button>
-                <button type="button" id="deletarBtn" class="btn btn-danger" style="display: none;" onclick="deletarServico()">Deletar</button>
-            </form>
-        </div>
-        <div style="width: 66%;">
-            <h1>Solicitações de Guincho</h1>
-            <input type="text" id="pesquisa" onkeyup="filtrarSolicitacoes()" placeholder="Pesquisar solicitações...">
-            <table border="1" id="tabelaServicos">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Data Solicitação</th>
-                        <th>Guincho</th>
-                        <th>Tipo Solicitação</th>
-                        <th>Protocolo</th>
-                        <th>Origem</th>
-                        <th>Destino</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for servico in servicos %}
-                    <tr onclick="projetarDadosServico({ servico })">
-                        <td>{{ servico[0] }}</td>
-                        <td>{{ servico[1] }}</td>
-                        <td>{{ servico[2] }}</td>
-                        <td>{{ servico[3] }}</td>
-                        <td>{{ servico[4] }}</td>
-                        <td>{{ servico[5] }}</td>
-                        <td>{{ servico[6] }}</td>
-                        <td>{{ servico[7] }}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+  <div class="container">
+    <h2>Serviços de Guincho</h2>
+
+    <div class="form-section">
+      <h1>Atualizar Serviço</h1>
+      <div class="content">
+        <form id="servicoForm" action="/atualizar_servico_guincho" method="post" enctype="multipart/form-data">
+          <!-- Remove botão de cadastro, mantém apenas atualizar e deletar -->
+          <button type="button" id="atualizarBtn" class="btn btn-warning" onclick="atualizarServico()">Atualizar</button>
+          <button type="button" id="deletarBtn" class="btn btn-danger" onclick="deletarServico()">Deletar</button>
+        </form>
+      </div>
     </div>
-    <script src="../statics/js/bootstrap.bundle.min.js"></script>
-    <script src="../statics/js/solicitacoes_guinchamento.js"></script>
+
+    <div class="table-section">
+      <h1>Solicitações de Guincho</h1>
+      <div class="content">
+        <!-- Seção de filtros: data e status -->
+        <div id="filtros" style="margin-bottom: 10px;">
+          <label for="filtroDataInicio">Data Início:</label>
+          <input type="date" id="filtroDataInicio" name="filtroDataInicio">
+          <label for="filtroDataFim">Data Fim:</label>
+          <input type="date" id="filtroDataFim" name="filtroDataFim">
+          <label for="filtroStatus">Status:</label>
+          <select id="filtroStatus" name="filtroStatus">
+            <option value="">Todos</option>
+            <option value="Em espera">Em espera</option>
+            <option value="Em andamento">Em andamento</option>
+            <option value="Finalizado">Finalizado</option>
+            <option value="Cancelado">Cancelado</option>
+          </select>
+        </div>
+        
+        <!-- Campo para pesquisa textual -->
+        <input type="text" id="pesquisa" onkeyup="filtrarSolicitacoes()" placeholder="Pesquisar solicitações...">
+        
+        <table border="1" id="tabelaServicos">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Data Solicitação</th>
+              <th>Guincho</th>
+              <th>Tipo Solicitação</th>
+              <th>Protocolo</th>
+              <th>Origem</th>
+              <th>Destino</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% if not servicos %}
+            <tr>
+              <td colspan="8">Nenhuma solicitação disponível</td>
+            </tr>
+            {% else %}
+              {% for servico in servicos %}
+              <tr onclick="projetarDadosServico(this)">
+                <td>{{ servico['id'] }}</td>
+                <td>{{ servico['data_solicitacao'] }}</td>
+                <td data-id="{{ servico['guincho_id'] }}">{{ servico['guincho_nome'] }}</td>
+                <td>{{ servico['tipo_solicitacao'] }}</td>
+                <td>{{ servico['protocolo'] }}</td>
+                <td>{{ servico['origem'] }}</td>
+                <td>{{ servico['destino'] }}</td>
+                <td>{{ servico['status'] }}</td>
+              </tr>
+              {% endfor %}
+            {% endif %}
+          </tbody>
+        </table>
+        
+        <!-- Área para exibição dos anexos -->
+        <div id="anexosDiv" style="display: none; margin-top: 15px;">
+          <h2>Anexos</h2>
+          <div id="anexosContainer"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Importa o script específico para este módulo -->
+  <script src="{{ url_for('static', filename='js/servicos_guincho.js') }}"></script>
+
+  <!-- Para admin: JavaScript para filtrar guinchos por secretaria -->
+  {% if session.tipo == 'Administrador' %}
+  <script>
+  document.getElementById('secretaria_id').addEventListener('change', function() {
+      const secretariaId = this.value;
+      const guinchoSelect = document.getElementById('guincho_id');
+      
+      // Limpa opções atuais
+      guinchoSelect.innerHTML = '<option value="">Carregando...</option>';
+      
+      if (secretariaId) {
+          // Busca guinchos da secretaria selecionada
+          fetch(`/guinchos_secretaria/${secretariaId}`)
+              .then(response => response.json())
+              .then(data => {
+                  guinchoSelect.innerHTML = data.guinchos.length ? 
+                      data.guinchos.map(g => `<option value="${g.id}">${g.modelo} - ${g.placa}</option>`).join('') :
+                      '<option value="">Nenhum guincho disponível</option>';
+              });
+      }
+  });
+  </script>
+  {% endif %}
 </body>
 </html>
