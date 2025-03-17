@@ -57,21 +57,126 @@ d:\Trabalho\GuinchoLacerda\
         key app 8e2aeaf562ce59676d8ed677f7e88935acc3fe44
 ```
 
+## Fluxo do Sistema
+
+```
+inicializacao.html
+├── Verifica Admin Cadastrado
+│   ├── NÃO
+│   │   └── Cadastro Inicial Admin
+│   │       ├── Sucesso -> Login
+│   │       └── Falha -> Retorna Cadastro
+│   │
+│   └── SIM
+│       └── Login
+│           ├── Admin (admin.html)
+│           │   ├── Gestão de Usuários
+│           │   │   ├── Criar (POST /usuarios/novo)
+│           │   │   ├── Editar (PUT /usuarios/<id>)
+│           │   │   └── Deletar (DELETE /usuarios/<id>)
+│           │   │
+│           │   ├── Gestão de Guinchos
+│           │   │   ├── Cadastrar (POST /guinchos/novo)
+│           │   │   ├── Atualizar (PUT /guinchos/<id>)
+│           │   │   └── Remover (DELETE /guinchos/<id>)
+│           │   │
+│           │   └── Relatórios Financeiros
+│           │       ├── Visualizar (GET /financeiro/relatorios)
+│           │       └── Exportar (GET /financeiro/exportar)
+│           │
+│           └── Secretária (sec.html)
+│               ├── Serviços de Guincho
+│               │   ├── Registrar (POST /servicos/novo)
+│               │   ├── Atualizar Status (PUT /servicos/<id>)
+│               │   └── Consultar (GET /servicos)
+│               │
+│               ├── Transações
+│               │   ├── Registrar (POST /transacoes/nova)
+│               │   └── Consultar (GET /transacoes)
+│               │
+│               └── Anexos
+│                   ├── Upload (POST /anexos/upload)
+│                   └── Download (GET /anexos/<id>)
+```
+
+## Permissões por Perfil
+
+### Administrador
+- Acesso total ao sistema
+- Gerenciamento de usuários
+- Configurações do sistema
+- Relatórios gerenciais
+- Gestão financeira completa
+
+### Secretária
+- Registro de serviços
+- Gestão de transações
+- Consulta de relatórios básicos
+- Upload de anexos
+- Atualização de status de serviços
+
+## Templates e Funcionalidades
+
+### inicializacao.html
+- Verificação inicial do sistema
+- Redirecionamento para cadastro ou login
+
+### login.html
+- Autenticação de usuários
+- Redirecionamento baseado em perfil
+
+### admin.html
+- Dashboard administrativo
+- Métricas e indicadores
+- Acesso a todas as funcionalidades
+
+### sec.html
+- Interface da secretária
+- Gestão de serviços diários
+- Registro de transações
+
+### servicos_guincho.html
+- Cadastro de serviços
+- Acompanhamento de status
+- Histórico de atendimentos
+
+### transacoes.html
+- Registro financeiro
+- Controle de pagamentos
+- Histórico de transações
+
+### usuarios.html
+- Gestão de contas
+- Permissões e acessos
+- Dados cadastrais
+
+### financeiro.html
+- Balanço financeiro
+- Relatórios e exportações
+- Análise de receitas/despesas
+
 ## Tecnologias Utilizadas
 
-- Python 3.x
-- Flask (Framework Web)
-- SQLite (Banco de dados local)
-- Google Drive API
-- Google Sheets API
-- HTML/CSS/JavaScript
+- Python 3.11
+- Flask 3.1.0
+- SQLite 3
+- Google Drive API v3
+- Google Sheets API v4
+- HTML5/CSS3/JavaScript
+- Bootstrap 5.3
+- JQuery 3.7
 
-## Funcionalidades
+## Integrações
 
-- Gestão de usuários (Administradores, Secretárias, Motoristas)
-- Controle de transações financeiras
-- Gerenciamento de serviços de guincho
-- Registro de veículos/guinchos
-- Integração com Google Drive para anexos
-- Sincronização com Google Sheets
-- Interface responsiva
+- Google Drive: Armazenamento de anexos
+- Google Sheets: Sincronização de dados
+- SQLite: Banco de dados local
+- API REST: Comunicação entre módulos
+
+## Segurança
+
+- Autenticação por sessão
+- Criptografia de senhas
+- Controle de acesso por perfil
+- Validação de dados
+- Proteção contra CSRF

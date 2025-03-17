@@ -18,7 +18,7 @@ class App:
     def __init__(self):
     #variáveis privadas
         self.app = Flask(__name__)  # Removido os parênteses extras de __name__
-        self.app.secret_key = ''
+        self.app.secret_key = '8e2aeaf562ce59676d8ed677f7e88935acc3fe44'
         self.google = GoogleDriveSheets(r"classes\lacerdaguinchos-8e2aeaf562ce.json")
         self.banco = BancoDados()
         self.configurar_rotas()
