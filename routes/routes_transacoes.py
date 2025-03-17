@@ -7,6 +7,8 @@ import zipfile
 from datetime import datetime
 import pandas as pd
 
+from classes.secretaria import Secretaria
+
 transacoes_bp = Blueprint('transacoes_bp', __name__)
 
 def get_admin():
@@ -17,6 +19,23 @@ def get_admin():
         nome=session['nome'],
         email=session['email'],
         senha=None,
+        tiopo=session['tipo'],
+        cnh=session['cnh'],
+        celular=session['celular'],
+        justificativa=session['justificativa'],
+        local_db=banco,
+        cloud_db=google
+    )
+
+def get_secretaria():
+    banco = BancoDados()
+    google = GoogleDriveSheets(r"classes\lacerdaguinchos-8e2aeaf562ce.json")
+    return Secretaria(
+        id=session['usuario_id'],
+        nome=session['nome'],
+        email=session['email'],
+        senha=None,
+        tipo=session['tipo'],
         cnh=session['cnh'],
         celular=session['celular'],
         justificativa=session['justificativa'],

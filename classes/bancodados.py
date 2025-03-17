@@ -105,6 +105,16 @@ class BancoDados:
 
             # Prepara a query
             dados_limpos = {k: v for k, v in dados.items() if v is not None}
+            """
+            dados.items():
+            Esse método retorna uma lista (ou iterador) de tuplas contendo os pares (chave, valor) do dicionário dados.
+            for k, v in dados.items():
+            Aqui, para cada tupla (chave, valor) em dados.items(), as variáveis k e v recebem, respectivamente, a chave e o valor.
+            if v is not None:
+            Esse é um filtro que garante que somente os pares em que o valor v não é None sejam incluídos no novo dicionário.
+            k: v:
+            Essa é a forma como o novo par é adicionado ao dicionário resultante, onde a chave é k e o valor é v.
+            """
             colunas = ', '.join(dados_limpos.keys())
             placeholders = ', '.join(['?' for _ in dados_limpos])
             sql = f'INSERT INTO {tabela} ({colunas}) VALUES ({placeholders})'
@@ -130,6 +140,15 @@ class BancoDados:
             sql = f'SELECT * FROM {tabela}'
             if filtros:
                 condicoes = ' AND '.join([f'{k}=?' for k in filtros.keys()])
+                """
+                filtros.keys():constrói dinamicamente uma string de condições para uma cláusula WHERE em SQL,
+                baseada nos filtros fornecidos em um dicionário. Primeiro, percorre todas as chaves do dicionário
+                filtros e gera uma lista de strings no formato coluna=?. Em seguida, essas condições são unidas 
+                usando " AND " como separador. Isso permite montar consultas SQL flexíveis, onde os valores ? serão 
+                substituídos posteriormente para evitar SQL Injection. 
+                Por exemplo, se filtros = {'nome': 'João', 'idade': 25},o resultado será "nome=? AND idade=?",
+                formando uma consulta como SELECT * FROM tabela WHERE nome=? AND idade=?.
+                """
                 sql += f' WHERE {condicoes}'
                 params = list(filtros.values())
             else:
@@ -141,6 +160,14 @@ class BancoDados:
             # Garante que o ID é inteiro
             if not df.empty and 'id' in df.columns:
                 df['id'] = df['id'].apply(lambda x: int(x) if pd.notna(x) else None)
+                """
+                transforma os valores da coluna 'id' de um DataFrame Pandas, convertendo-os para inteiros,
+                caso não sejam NaN (valores ausentes). A função apply() aplica uma função lambda a cada 
+                elemento da coluna. Dentro da lambda, pd.notna(x) verifica se o valor não é NaN. Se for um
+                valor válido, ele é convertido para inteiro usando int(x), caso contrário, é substituído por None.
+                Isso garante que a coluna 'id' contenha apenas números inteiros ou valores nulos,
+                evitando erros ao trabalhar com dados ausentes
+                """
                 
             print(f"Lidos {len(df)} registros da tabela {tabela}")
             return df
@@ -176,6 +203,14 @@ class BancoDados:
     def atualizar(self, tabela: str, linha: int, novos_dados: dict):
         """Atualiza registros em uma tabela"""
         sets = ', '.join([f'{k}=?' for k in novos_dados.keys()])
+        """
+        cria uma string formatada para ser usada em uma consulta SQL de atualização (UPDATE).
+        Ela percorre as chaves do dicionário novos_dados e gera uma lista de strings no formato "chave=?",
+        onde cada chave representa uma coluna da tabela no banco de dados.
+        A função join() então une esses elementos em uma única string, separando-os por ", ".
+        Por exemplo, se novos_dados = {'nome': 'João', 'idade': 30}, o resultado será:
+        "nome=?, idade=?", que pode ser usada na cláusula SET de uma instrução UPDATE.
+        """
         sql = f'UPDATE {tabela} SET {sets} WHERE id=?'
         valores = list(novos_dados.values()) + [linha]
         self.cursor.execute(sql, valores)

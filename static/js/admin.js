@@ -10,10 +10,11 @@ function loadContent(route) {
 function resizeIframe(iframe) {
     try {
         iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
-        if (window.innerWidth > 800) {
+
+        if (window.innerWidth > 700) {
             iframe.style.width = '80%';
         } else {
-            iframe.style.width = '100%';
+            iframe.style.width = '90%';
         }
     } catch (e) {
         console.error('Erro ao redimensionar iframe:', e);

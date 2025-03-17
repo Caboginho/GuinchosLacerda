@@ -5,6 +5,8 @@ from classes.googledrivesheets import GoogleDriveSheets
 from classes.administrador import Administrador
 from datetime import datetime
 
+from classes.secretaria import Secretaria
+
 servicos_guincho_bp = Blueprint('servicos_guincho_bp', __name__)
 
 def get_admin():
@@ -18,6 +20,7 @@ def get_admin():
         nome=session['nome'],
         email=session['email'],
         senha=None,
+        tipo=session['tipo'],
         cnh=session['cnh'],
         celular=session['celular'],
         justificativa=session['justificativa'],
@@ -25,9 +28,28 @@ def get_admin():
         cloud_db=cloud_db
     )
 
+def get_secretaria():
+    banco = BancoDados()
+    google = GoogleDriveSheets(r"classes\lacerdaguinchos-8e2aeaf562ce.json")
+    return Secretaria(
+        id=session['usuario_id'],
+        nome=session['nome'],
+        email=session['email'],
+        senha=None,
+        tipo=session['tipo'],
+        cnh=session['cnh'],
+        celular=session['celular'],
+        justificativa=session['justificativa'],
+        local_db=banco,
+        cloud_db=google
+    )
+
 @servicos_guincho_bp.route('/cadastrar_servico_guincho', methods=['POST'])
 def cadastrar_servico_guincho():
-    admin = get_admin()
+    if session.get('tipo') == 'Secretaria':
+        admin = get_secretaria()
+    else:
+        admin = get_admin()
     try:
         # Dados do serviço
         dados_servico = {
