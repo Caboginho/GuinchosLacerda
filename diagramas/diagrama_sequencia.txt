@@ -1,0 +1,116 @@
+DIAGRAMA DE SEQUÊNCIA - REGISTRO DE SERVIÇO
+
+[Secretária] -> [Sistema]
+  |
+  |-- Login ---->
+  |             [Sistema] -> [BancoDados]
+  |                          verifica_credenciais()
+  |             <-- retorna sessão --
+  |
+  |-- Registra Serviço -->
+  |             [Sistema] -> [ServicoGuincho]
+  |                          criar_servico()
+  |                          [ServicoGuincho] -> [BancoDados]
+  |                                              salvar()
+  |             
+  |-- Upload Anexo -->
+  |             [Sistema] -> [Anexo]
+  |                          compactar()
+  |                          [Anexo] -> [GoogleDriveSheets]
+  |                                     upload()
+  |
+  |-- Registra Transação -->
+  |             [Sistema] -> [Transacao]
+  |                          vincular_servico()
+  |                          [Transacao] -> [BancoDados]
+  |                                         salvar()
+  |
+  |-- Sincronização -->
+  |             [Sistema] -> [GoogleDriveSheets]
+  |                          sincronizar_dados()
+  |
+  <-- Confirmação --
+
+1. SEQUÊNCIA DE ADMINISTRADOR SELECIONANDO SECRETÁRIA
+
+[Administrador] -> [Sistema]
+  |
+  |-- Login Admin ---->
+  |             [Sistema] -> [BancoDados]
+  |                          verificar_credenciais()
+  |             <-- sessão admin --
+  |
+  |-- Seleciona Secretária -->
+  |             [Sistema] -> [GoogleDriveSheets]
+  |                          carregar_planilhas_secretaria()
+  |                          carregar_pasta_anexos()
+  |             <-- estrutura carregada --
+  |
+  |-- Acessa Dados -->
+  |             [Sistema] -> [BancoDados]
+  |                          sincronizar_dados_secretaria()
+  |             <-- dados sincronizados --
+  |
+  |-- Manipula Registros -->
+  |             [Sistema] -> [GoogleDriveSheets]
+  |                          atualizar_planilhas()
+  |             -> [BancoDados]
+  |                sincronizar_local()
+  |
+  <-- Confirmação --
+
+2. SEQUÊNCIA DE SERVIÇO COM ANEXO
+
+[Secretária] -> [Sistema]
+  |
+  |-- Cria Serviço -->
+  |             [Sistema] -> [ServicoGuincho]
+  |                          criar()
+  |                          [ServicoGuincho] -> [BancoDados]
+  |                                              salvar()
+  |
+  |-- Upload Anexo -->
+  |             [Sistema] -> [Anexo]
+  |                          preparar_nome(secretaria_email + data)
+  |                          compactar()
+  |                          [Anexo] -> [GoogleDrive]
+  |                                     upload_compactado()
+  |                                     registrar_metadados()
+  |
+  |-- Vincula Anexo -->
+  |             [Sistema] -> [ServicoGuincho]
+  |                          adicionar_anexo()
+  |                          [BancoDados]
+  |                          atualizar()
+  |
+  |-- Sincroniza -->
+  |             [Sistema] -> [GoogleDriveSheets]
+  |                          atualizar_planilha_servicos()
+  |
+  <-- Confirmação --
+
+3. SEQUÊNCIA DE TRANSAÇÃO VINCULADA
+
+[Usuario] -> [Sistema]
+  |
+  |-- Seleciona Serviço -->
+  |             [Sistema] -> [ServicoGuincho]
+  |                          carregar_detalhes()
+  |
+  |-- Registra Transação -->
+  |             [Sistema] -> [Transacao]
+  |                          vincular_servico()
+  |                          validar_valores()
+  |
+  |-- Se Valor Negativo -->
+  |             [Sistema] -> [Administrador]
+  |                          solicitar_aprovacao()
+  |             <-- aprovação --
+  |
+  |-- Finaliza Registro -->
+  |             [Sistema] -> [BancoDados]
+  |                          salvar_transacao()
+  |             -> [GoogleDriveSheets]
+  |                atualizar_planilha_financeira()
+  |
+  <-- Confirmação --

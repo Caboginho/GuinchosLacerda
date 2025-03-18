@@ -1,0 +1,27 @@
+REQUISITOS FUNCIONAIS
+
+RF01 - Vinculação de Registros
+- O sistema deve vincular automaticamente todos os registros à secretária que os criou
+- Anexos devem conter identificação da secretária responsável
+
+RF02 - Gestão de Anexos
+- Compactação automática de anexos
+- Nomenclatura: email_secretaria_data_hora
+- Visualização em área específica do layout
+- Download de anexos individuais
+
+RF03 - Atribuições
+- Administrador pode atribuir/realocar serviços
+- Administrador pode atribuir/realocar transações
+- Registro de histórico de atribuições
+
+RF04 - Filtros e Buscas
+- Busca por secretária responsável
+- Filtro por período
+- Filtro por status
+- Busca por tipo de serviço/transação
+
+RF05 - Relatórios
+- Geração de relatórios por secretária
+- Exportação de dados filtrados
+- Histórico de alterações

@@ -1,0 +1,133 @@
+DIAGRAMA DE APIS E INTERFACES - SISTEMA GUINCHO LACERDA
+
+1. ENDPOINTS DA API
+
+[Autenticação]
+  ├── /api/auth/login
+  │   ├── POST: Login usuário
+  │   └── Response: JWT Token
+  │
+  ├── /api/auth/refresh
+  │   └── POST: Renovar token
+  │
+  └── /api/auth/logout
+      └── POST: Encerrar sessão
+
+[Usuários]
+  ├── /api/usuarios
+  │   ├── GET: Listar usuários
+  │   └── POST: Criar usuário
+  │
+  └── /api/usuarios/{id}
+      ├── GET: Detalhes usuário
+      ├── PUT: Atualizar usuário
+      └── DELETE: Desativar usuário
+
+[Serviços]
+  ├── /api/servicos
+  │   ├── GET: Listar serviços
+  │   └── POST: Criar serviço
+  │
+  ├── /api/servicos/{id}
+  │   ├── GET: Detalhes serviço
+  │   ├── PUT: Atualizar serviço
+  │   └── DELETE: Cancelar serviço
+  │
+  └── /api/servicos/{id}/anexos
+      ├── POST: Adicionar anexo
+      └── GET: Listar anexos
+
+[Transações]
+  ├── /api/transacoes
+  │   ├── GET: Listar transações
+  │   └── POST: Criar transação
+  │
+  └── /api/transacoes/{id}
+      ├── GET: Detalhes transação
+      ├── PUT: Atualizar transação
+      └── POST: Aprovar/Rejeitar
+
+2. INTERFACES DE INTEGRAÇÃO
+
+[Google Drive API]
+  ├── Upload
+  │   ├── Método: POST
+  │   ├── Multipart Form
+  │   └── Progress Tracking
+  │
+  ├── Download
+  │   ├── Método: GET
+  │   ├── Stream Response
+  │   └── Range Support
+  │
+  └── Metadata
+      ├── Create/Update
+      └── Permissions
+
+[Google Sheets API]
+  ├── Leitura
+  │   ├── Batch Get
+  │   └── Range Query
+  │
+  ├── Escrita
+  │   ├── Batch Update
+  │   └── Append Rows
+  │
+  └── Formatação
+      ├── Conditional Rules
+      └── Data Validation
+
+3. COMUNICAÇÃO CLIENTE-SERVIDOR
+
+[AJAX Requests]
+  ├── Serviços
+  │   ├── Lista Paginada
+  │   ├── Filtros Dinâmicos
+  │   └── Sort Options
+  │
+  ├── Transações
+  │   ├── Submit Form
+  │   ├── Status Update
+  │   └── Aprovações
+  │
+  └── Anexos
+      ├── Upload Progress
+      ├── Download Handler
+      └── Preview
+
+4. WEBSOCKET (FUTURO)
+
+[Eventos Real-time]
+  ├── Notificações
+  │   ├── Status Changes
+  │   ├── New Records
+  │   └── Approvals
+  │
+  ├── Chat
+  │   ├── User Messages
+  │   └── System Alerts
+  │
+  └── Dashboard
+      ├── Live Updates
+      └── Metrics
+
+5. RESPONSES PADRÃO
+
+[Sucesso]
+  ├── 200: OK
+  │   └── {data, message}
+  │
+  ├── 201: Created
+  │   └── {id, message}
+  │
+  └── 204: No Content
+
+[Erro]
+  ├── 400: Bad Request
+  │   └── {error, details}
+  │
+  ├── 401: Unauthorized
+  │   └── {error, redirect}
+  │
+  └── 500: Server Error
+      └── {error, trace}

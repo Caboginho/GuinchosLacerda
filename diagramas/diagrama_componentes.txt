@@ -1,0 +1,50 @@
+DIAGRAMA DE COMPONENTES - SISTEMA GUINCHO LACERDA
+
+[Interface Web]
+     ↓
+[Flask App] ←→ [Autenticação]
+     ↓
+[Controllers]
+     ↓
+┌────────────────────────┐
+│    Camada de Dados     │
+├────────────┬───────────┤
+│ SQLite     │  Google   │
+│ Local      │  Cloud    │
+└────────────┴───────────┘
+
+1. COMPONENTES PRINCIPAIS
+[Interface Web]
+├── Templates HTML
+├── Static Files
+└── JavaScript Client
+
+[Flask App]
+├── Routes
+├── Blueprints
+└── Session Manager
+
+[Controllers]
+├── Usuario Controller
+├── Serviço Controller
+├── Transação Controller
+└── Anexo Controller
+
+[Camada de Dados]
+├── Database Manager
+├── Google Drive API
+├── Google Sheets API
+└── Sync Manager
+
+2. INTEGRAÇÕES
+[Sistema] ←→ [Google Drive]
+└── Anexos
+    ├── Upload/Download
+    ├── Compressão
+    └── Metadados
+
+[Sistema] ←→ [Google Sheets]
+└── Planilhas
+    ├── Serviços
+    ├── Transações
+    └── Relatórios

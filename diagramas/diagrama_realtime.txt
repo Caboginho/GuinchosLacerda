@@ -1,0 +1,102 @@
+DIAGRAMA DE FLUXO EM TEMPO REAL - SISTEMA GUINCHO LACERDA
+
+1. ESTRATÉGIA DE CACHE
+
+[Cache Local]
+  ├── SessionStorage
+  │   ├── Dados de Usuário
+  │   ├── Permissões
+  │   └── Tokens
+  │
+  └── LocalStorage
+      ├── Configurações UI
+      ├── Últimas Consultas
+      └── Templates
+
+[Cache Servidor]
+  ├── Memória
+  │   ├── Sessões Ativas
+  │   ├── Dados Frequentes
+  │   └── Resultados Query
+  │
+  └── SQLite
+      ├── Cache Planilhas
+      ├── Cache Anexos
+      └── Metadata
+
+2. SINCRONIZAÇÃO EM TEMPO REAL
+
+[Cliente] -> [Servidor]
+  ├── Pooling Regular
+  │   ├── Status Serviços
+  │   ├── Novas Transações
+  │   └── Notificações
+  │
+  └── WebSocket (Futuro)
+      ├── Updates Imediatos
+      ├── Notificações Push
+      └── Chat Interno
+
+3. ESTRATÉGIA DE ATUALIZAÇÃO
+
+[Verificação Periódica]
+  ├── Google Sheets
+  │   ├── Intervalo: 5min
+  │   ├── Diff Changes
+  │   └── Merge Updates
+  │
+  └── Google Drive
+      ├── Intervalo: 15min
+      ├── Check New Files
+      └── Update Metadata
+
+4. PRIORIZAÇÃO DE DADOS
+
+[Dados Críticos]
+  ├── Sync Imediato
+  │   ├── Transações
+  │   ├── Status Serviços
+  │   └── Aprovações
+  │
+  └── Background Sync
+      ├── Relatórios
+      ├── Histórico
+      └── Anexos
+
+5. GESTÃO DE CONFLITOS
+
+[Detecção]
+  ├── Timestamp Check
+  ├── Version Compare
+  └── Hash Validation
+
+[Resolução]
+  ├── Cloud Priority
+  ├── Merge Strategy
+  └── Conflict Log
+
+6. PERFORMANCE
+
+[Otimizações]
+  ├── Lazy Loading
+  │   ├── Anexos
+  │   ├── Histórico
+  │   └── Relatórios
+  │
+  └── Batch Operations
+      ├── Bulk Updates
+      ├── Batch Sync
+      └── Queue System
+
+7. RECUPERAÇÃO
+
+[Falha Sync]
+  ├── Retry Logic
+  │   ├── Exponential Backoff
+  │   ├── Max Attempts
+  │   └── Alert Admin
+  │
+  └── Fallback
+      ├── Local Operation
+      ├── Queue Update
+      └── Manual Sync

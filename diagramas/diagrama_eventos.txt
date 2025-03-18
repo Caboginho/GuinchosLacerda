@@ -1,0 +1,138 @@
+DIAGRAMA DE EVENTOS E NOTIFICAÇÕES - SISTEMA GUINCHO LACERDA
+
+1. EVENTOS DO SISTEMA
+
+[Eventos de Usuário]
+  ├── Login/Logout
+  │   ├── Registro Acesso
+  │   └── Atualiza Status Online
+  │
+  ├── Alteração Senha
+  │   ├── Validação Política
+  │   └── Registro Histórico
+  │
+  └── Bloqueio/Desbloqueio
+      ├── Tentativas Falhas
+      └── Reset Manual Admin
+
+[Eventos de Dados]
+  ├── Criação/Modificação
+  │   ├── Log Alteração
+  │   ├── Marca Sync
+  │   └── Notifica Interessados
+  │
+  ├── Sincronização
+  │   ├── Início/Fim Sync
+  │   ├── Conflitos
+  │   └── Erros
+  │
+  └── Backup
+      ├── Início/Fim Backup
+      ├── Sucesso/Falha
+      └── Espaço Disco
+
+2. FLUXO DE NOTIFICAÇÕES
+
+[Geração]
+  ├── Eventos Sistema
+  │   ├── Automáticos
+  │   └── Programados
+  │
+  ├── Ações Usuário
+  │   ├── Operações CRUD
+  │   └── Aprovações
+  │
+  └── Alertas
+      ├── Erros
+      ├── Avisos
+      └── Informações
+
+[Distribuição]
+  ├── Interface Web
+  │   ├── Toast Messages
+  │   ├── Alert Boxes
+  │   └── Status Updates
+  │
+  ├── Email
+  │   ├── Aprovações
+  │   ├── Relatórios
+  │   └── Alertas Críticos
+  │
+  └── Sistema
+      ├── Logs
+      ├── Métricas
+      └── Auditoria
+
+3. PRIORIDADES DE NOTIFICAÇÃO
+
+[Crítica - Imediata]
+  ├── Falha Segurança
+  ├── Erro Sistema
+  └── Perda Dados
+
+[Alta - 5 min]
+  ├── Aprovação Pendente
+  ├── Sync Falha
+  └── Limite Quota
+
+[Média - 1 hora]
+  ├── Updates Status
+  ├── Novos Registros
+  └── Alterações
+
+[Baixa - Diária]
+  ├── Relatórios
+  ├── Métricas
+  └── Resumos
+
+4. TIPOS DE ALERTAS
+
+[Sistema]
+  ├── Performance
+  │   ├── CPU/Memória
+  │   ├── Tempo Resposta
+  │   └── Quota Storage
+  │
+  ├── Segurança
+  │   ├── Tentativas Login
+  │   ├── Acessos Negados
+  │   └── Alterações Config
+  │
+  └── Dados
+      ├── Integridade
+      ├── Sincronização
+      └── Backup Status
+
+[Negócio]
+  ├── Serviços
+  │   ├── Novos
+  │   ├── Status Change
+  │   └── Atrasados
+  │
+  ├── Transações
+  │   ├── Pendentes
+  │   ├── Aprovadas
+  │   └── Rejeitadas
+  │
+  └── Documentos
+      ├── Uploads
+      ├── Downloads
+      └── Expiração
+
+5. GESTÃO DE NOTIFICAÇÕES
+
+[Configuração]
+  ├── Por Usuário
+  │   ├── Canais
+  │   ├── Frequência
+  │   └── Prioridade
+  │
+  ├── Por Tipo
+  │   ├── Formato
+  │   ├── Destino
+  │   └── Retenção
+  │
+  └── Por Sistema
+      ├── Thresholds
+      ├── Escalação
+      └── Persistência

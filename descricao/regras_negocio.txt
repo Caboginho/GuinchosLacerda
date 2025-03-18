@@ -1,0 +1,28 @@
+REGRAS DE NEGÓCIO
+
+RN01 - Atribuições
+- Apenas administradores e secretária podem atribuir serviços/transações
+- Uma secretária só pode ver seus próprios registros
+- Registros não podem ser excluídos, apenas inativados
+
+RN02 - Anexos
+- Tamanho máximo por arquivo: 10MB
+- Formatos permitidos: PDF, JPG, PNG, DOC
+- Anexos devem ser compactados automaticamente
+- Manter versão compactada
+
+RN03 - Serviços
+- Todo serviço deve ter uma secretária responsável
+- Alterações de status devem ser registradas
+- Serviços não podem ser fechados sem documentação
+
+RN04 - Transações
+- Toda transação deve ter ser vinvulada a um serviço
+- Valores negativos devem ter aprovação do admin
+- Registro de data/hora automático
+
+RN05 - Usuários
+- Senhas devem ter mínimo 8 caracteres
+- Bloqueio após 3 tentativas falhas
+- Troca de senha a cada 90 dias
+- Registro de todas as ações do usuário

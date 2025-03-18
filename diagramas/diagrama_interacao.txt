@@ -1,0 +1,91 @@
+DIAGRAMA DE INTERAÇÃO ADMIN-SECRETÁRIA
+
+1. FLUXO DE DELEGAÇÃO DE ACESSO
+[Administrador]
+  |
+  ├── Cadastra Secretária
+  |     └── [Sistema]
+  |          ├── Cria Conta
+  |          ├── Gera Planilhas
+  |          |     ├── servicos_<email>.sheet
+  |          |     ├── transacoes_<email>.sheet
+  |          |     └── relatorios_<email>.sheet
+  |          |
+  |          └── Cria Estrutura Drive
+  |                ├── pasta_<email>
+  |                └── anexos_<email>
+
+2. FLUXO DE ACESSO AOS DADOS
+[Admin Visualiza Secretária]
+  |
+  ├── Seleciona Secretária
+  |     └── [Sistema]
+  |          ├── Carrega Permissões
+  |          ├── Monta Interface
+  |          └── Sincroniza Dados
+  |
+  ├── Acessa Dados
+  |     ├── Serviços da Secretária
+  |     ├── Transações Vinculadas
+  |     └── Anexos Disponíveis
+  |
+  └── Manipula Dados
+        ├── Aprova/Rejeita
+        ├── Edita Status
+        └── Baixa Anexos
+
+3. FLUXO DE SINCRONIZAÇÃO
+[Alteração de Dados]
+  |
+  ├── [Origem: Admin]
+  |     ├── Atualiza Local
+  |     ├── Marca Alteração
+  |     └── Notifica Secretária
+  |
+  ├── [Origem: Secretária]
+  |     ├── Atualiza Planilha
+  |     ├── Marca Alteração
+  |     └── Notifica Admin
+  |
+  └── [Sistema]
+        ├── Resolve Conflitos
+        ├── Sincroniza Dados
+        └── Confirma Operação
+
+4. FLUXO DE APROVAÇÕES
+[Transação Pendente]
+  |
+  ├── Secretária Registra
+  |     └── Status: Pendente
+  |
+  ├── Sistema Avalia
+  |     ├── Valor > Limite
+  |     └── Tipo Especial
+  |
+  ├── Notifica Admin
+  |     ├── Dashboard
+  |     └── Email
+  |
+  └── Admin Processa
+        ├── Aprova
+        |     └── Atualiza Status
+        |
+        └── Rejeita
+              └── Retorna Secretária
+
+5. CONTROLE DE VERSÃO
+[Documento Alterado]
+  |
+  ├── Sistema Registra
+  |     ├── Versão Anterior
+  |     ├── Autor Mudança
+  |     └── Timestamp
+  |
+  ├── Mantém Histórico
+  |     ├── Local
+  |     └── Nuvem
+  |
+  └── Permite Consulta
+        ├── Por Período
+        ├── Por Autor
+        └── Por Tipo

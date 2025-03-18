@@ -1,0 +1,49 @@
+DIAGRAMA DE CASOS DE USO - SISTEMA GUINCHO LACERDA
+
+[Ator: Administrador]
+  |
+  |---> (Gerenciar Usuários)
+  |     |---> (Cadastrar Usuário)
+  |     |---> (Editar Usuário)
+  |     |---> (Desativar Usuário)
+  |     |---> (Consultar Usuário)
+  |
+  |---> (Gerenciar Guinchos)
+  |     |---> (Cadastrar Guincho)
+  |     |---> (Atribuir Motorista)
+  |     |---> (Atribuir Secretária)
+  |
+  |---> (Gerenciar Financeiro)
+  |     |---> (Visualizar Dashboard)
+  |     |---> (Gerar Relatórios)
+  |     |---> (Aprovar Transações)
+  |     |---> (Exportar Dados)
+  |
+  |---> (Gerenciar Serviços)
+        |---> (Visualizar Todos Serviços)
+        |---> (Atribuir Serviços)
+        |---> (Gerenciar Status)
+
+[Ator: Secretária]
+  |
+  |---> (Gerenciar Serviços)
+  |     |---> (Registrar Serviço)
+  |     |---> (Atualizar Status)
+  |     |---> (Anexar Documentos)
+  |
+  |---> (Gerenciar Transações)
+  |     |---> (Registrar Transação)
+  |     |---> (Consultar Transações)
+  |
+  |---> (Gerenciar Anexos)
+        |---> (Upload Anexo)
+        |---> (Download Anexo)
+        |---> (Visualizar Anexos)
+
+[Sistema]
+  |
+  |---> (Autenticar Usuário)
+  |---> (Sincronizar Drive)
+  |---> (Compactar Anexos)
+  |---> (Validar Dados)
+  |---> (Registrar Logs)

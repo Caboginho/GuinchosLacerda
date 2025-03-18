@@ -1,0 +1,28 @@
+REQUISITOS NÃO FUNCIONAIS
+
+RNF01 - Desempenho
+- Tempo máximo de resposta: 3 segundos
+- Compactação eficiente de anexos
+- Otimização de consultas ao banco
+
+RNF02 - Segurança
+- Criptografia de dados sensíveis
+- Controle de sessão
+- Backup automático
+- Registro de logs de acesso
+
+RNF03 - Usabilidade
+- Interface responsiva
+- Feedback visual de ações
+- Mensagens de erro claras
+- Layout intuitivo
+
+RNF04 - Disponibilidade
+- Sistema disponível 24/7
+- Tolerância a falhas
+- Recuperação de erros
+
+RNF05 - Manutenibilidade
+- Código documentado
+- Arquitetura modular
+- Padrões de projeto

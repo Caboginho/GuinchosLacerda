@@ -1,0 +1,142 @@
+DIAGRAMA DE INTERFACE E UX - SISTEMA GUINCHO LACERDA
+
+1. ESTRUTURA DE TEMPLATES
+
+[Layout Base]
+  ├── Header
+  │   ├── Logo
+  │   ├── Menu Principal
+  │   └── User Actions
+  │
+  ├── Sidebar
+  │   ├── Menu Contextual
+  │   └── Quick Actions
+  │
+  ├── Content Area
+  │   ├── Breadcrumb
+  │   ├── Page Title
+  │   └── Dynamic Content
+  │
+  └── Footer
+      ├── Status Bar
+      └── System Info
+
+2. COMPONENTES REUTILIZÁVEIS
+
+[Forms]
+  ├── Input Groups
+  │   ├── Validation
+  │   └── Masks
+  │
+  ├── File Upload
+  │   ├── Drag & Drop
+  │   ├── Progress
+  │   └── Preview
+  │
+  └── Dynamic Forms
+      ├── Add/Remove Fields
+      └── Conditional Fields
+
+[Tables]
+  ├── Data Grid
+  │   ├── Sorting
+  │   ├── Filtering
+  │   └── Pagination
+  │
+  ├── Action Columns
+  │   ├── Edit
+  │   ├── Delete
+  │   └── View Details
+  │
+  └── Bulk Actions
+      ├── Select All
+      └── Batch Operations
+
+3. FLUXOS DE INTERAÇÃO
+
+[Serviço Novo]
+  ├── Seleção Tipo
+  │   ├── Guincho Leve
+  │   ├── Guincho Pesado
+  │   └── Especial
+  │
+  ├── Dados Básicos
+  │   ├── Cliente
+  │   ├── Localização
+  │   └── Veículo
+  │
+  ├── Anexos
+  │   ├── Upload Area
+  │   └── Preview List
+  │
+  └── Confirmação
+      ├── Resumo
+      └── Submit
+
+[Transação]
+  ├── Vinculação
+  │   ├── Busca Serviço
+  │   └── Seleciona
+  │
+  ├── Valores
+  │   ├── Cálculo
+  │   └── Aprovação
+  │
+  └── Finalização
+      ├── Comprovante
+      └── Confirmação
+
+4. ESTADOS VISUAIS
+
+[Feedback]
+  ├── Loading
+  │   ├── Spinners
+  │   └── Progress Bars
+  │
+  ├── Messages
+  │   ├── Success
+  │   ├── Error
+  │   └── Warning
+  │
+  └── Confirmations
+      ├── Modal
+      └── Toast
+
+[Status Indicators]
+  ├── Serviços
+  │   ├── Novo
+  │   ├── Em Análise
+  │   ├── Aprovado
+  │   └── Concluído
+  │
+  └── Transações
+      ├── Pendente
+      ├── Aprovada
+      └── Rejeitada
+
+5. RESPONSIVIDADE
+
+[Breakpoints]
+  ├── Mobile (<768px)
+  │   ├── Menu Collapsed
+  │   └── Simplified Views
+  │
+  ├── Tablet (768-1024px)
+  │   ├── Hybrid Layout
+  │   └── Touch Optimized
+  │
+  └── Desktop (>1024px)
+      ├── Full Features
+      └── Multi-column
+
+6. ACESSIBILIDADE
+
+[ARIA Labels]
+  ├── Navigation
+  ├── Forms
+  └── Dynamic Content
+
+[Keyboard Navigation]
+  ├── Shortcuts
+  ├── Tab Order
+  └── Focus Management

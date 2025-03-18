@@ -1,0 +1,70 @@
+DIAGRAMA DE ESTADOS - SISTEMA GUINCHO LACERDA
+
+1. ESTADOS DO SERVIÇO DE GUINCHO
+[Novo]
+  ↓
+[Em Análise] 
+  ↓
+[Aprovado] → [Em Execução] → [Concluído]
+  ↓                            ↓
+[Negado]                    [Faturado]
+                             ↓
+                          [Arquivado]
+
+Transições Permitidas:
+- Novo → Em Análise: Secretária registra
+- Em Análise → Aprovado: Admin/Secretária aprova
+- Em Análise → Negado: Admin/Secretária nega
+- Aprovado → Em Execução: Secretária inicia
+- Em Execução → Concluído: Secretária finaliza
+- Concluído → Faturado: Sistema após transação
+- Faturado → Arquivado: Sistema após 30 dias
+
+2. ESTADOS DA TRANSAÇÃO
+[Pendente]
+  ↓
+[Em Aprovação] → [Negada]
+  ↓
+[Aprovada] → [Processada]
+  ↓
+[Concluída]
+
+Gatilhos:
+- Valor Negativo → Em Aprovação
+- Valor > 10000 → Em Aprovação
+- Aprovada + Anexos → Processada
+- Processada + Sync → Concluída
+
+3. ESTADOS DO ANEXO
+[Upload]
+  ↓
+[Validação] → [Rejeitado]
+  ↓
+[Compactação]
+  ↓
+[Armazenamento]
+  ↓
+[Vinculado]
+
+Condições:
+- Formato válido
+- Tamanho < 10MB
+- Hash verificado
+- Compactação OK
+- Upload Drive OK
+
+4. ESTADOS DA SINCRONIZAÇÃO
+[Local]
+  ↓
+[Pendente Sync]
+  ↓
+[Enviando] → [Erro]
+  ↓            ↓
+[Sincronizado] [Retry Queue]
+
+Eventos:
+- Alteração Local → Pendente
+- Internet OK → Enviando
+- Confirmação → Sincronizado
+- Timeout → Erro
+- Retry OK → Sincronizado

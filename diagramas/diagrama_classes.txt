@@ -1,0 +1,139 @@
+DIAGRAMA DE CLASSES E RELACIONAMENTOS - SISTEMA GUINCHO LACERDA
+
+1. HIERARQUIA DE CLASSES
+
+[Usuario] <abstract>
+- id: int
+- nome: str
+- email: str
+- senha: str
+- tipo: str
+- cnh: str
+- celular: str
+- justificativa: str
++ autenticar(): bool
++ alterar_senha(): void
++ atualizar_dados(): void
++ get_permissoes(): List<Permissao>
+
+    ↑ (herança)
+    |
+  [Administrador]
+  - local_db: BancoDados
+  - cloud_db: GoogleDriveSheets
+  + gerenciar_usuarios(): void
+  + gerenciar_guinchos(): void
+  + gerar_relatorios(): Report
+  + sincronizar_dados(): void
+  + selecionar_secretaria(id: int): void
+  + aprovar_transacao(id: int): void
+  + configurar_planilhas(): void
+  
+    ↑ (herança)
+    |
+  [Secretaria]
+  - planilha_id: str
+  - pasta_anexos_id: str
+  - servicos: List<ServicoGuincho>
+  - transacoes: List<Transacao>
+  + registrar_servico(): ServicoGuincho
+  + registrar_transacao(): Transacao
+  + gerenciar_anexos(): void
+  + atualizar_status(): void
+  + sincronizar_dados_locais(): void
+
+2. ASSOCIAÇÕES E COMPOSIÇÕES
+
+[ServicoGuincho] ---> [Secretaria] (pertence a)
+- id: int
+- tipo: str
+- data: datetime
+- status: str
+- valor: float
+- secretaria_id: int  // Chave estrangeira
+- anexos: List<Anexo>
+- historico: List<Alteracao>
++ atualizar_status(novo_status: str): void
++ adicionar_anexo(anexo: Anexo): void
++ calcular_valor(): float
++ registrar_alteracao(alteracao: Alteracao): void
+
+[Transacao] ---> [ServicoGuincho] (vinculada a)
+[Transacao] ---> [Secretaria] (registrada por)
+- id: int
+- valor: float
+- data: datetime
+- tipo: str
+- servico_id: int     // Chave estrangeira
+- secretaria_id: int  // Chave estrangeira
+- status_aprovacao: str
++ registrar(): void
++ vincular_servico(servico_id: int): void
++ solicitar_aprovacao(): void
++ aprovar(): void
+
+[Anexo] ---> [ServicoGuincho] (pertence a)
+- id: int
+- nome: str
+- caminho: str
+- tipo: str
+- data_upload: datetime
+- secretaria_email: str
+- hash: str
++ compactar(): void
++ descompactar(): void
++ upload(): str  // retorna URL
++ download(): File
++ verificar_integridade(): bool
+
+3. CLASSES DE PERSISTÊNCIA
+
+[BancoDados] <singleton>
+- conexao: SQLite
+- instance: BancoDados
++ get_instance(): BancoDados
++ criar_tabela(nome: str, campos: dict): void
++ inserir(tabela: str, dados: dict): int
++ atualizar(tabela: str, dados: dict, condicao: dict): void
++ deletar(tabela: str, condicao: dict): void
++ ler(tabela: str, condicao: dict): DataFrame
++ sincronizar(dados: dict): void
++ backup(): void
+
+[GoogleDriveSheets] <singleton>
+- credentials: JSON
+- service_drive: GoogleDrive
+- service_sheets: GoogleSheets
+- instance: GoogleDriveSheets
++ get_instance(): GoogleDriveSheets
++ upload_arquivo(file: File, metadata: dict): str
++ download_arquivo(file_id: str): File
++ sincronizar_planilha(sheet_id: str, dados: DataFrame): void
++ ler_dados(sheet_id: str): DataFrame
++ atualizar_dados(sheet_id: str, dados: dict): void
++ criar_estrutura_secretaria(email: str): dict
++ gerenciar_quotas(): void
+
+4. CLASSES AUXILIARES
+
+[Alteracao]
+- id: int
+- data: datetime
+- usuario_id: int
+- tipo_alteracao: str
+- descricao: str
++ registrar(): void
+
+[Permissao]
+- id: int
+- nome: str
+- descricao: str
++ verificar(usuario: Usuario): bool
+
+5. RELACIONAMENTOS
+- Usuario <-> BancoDados: Persistência
+- Usuario <-> GoogleDriveSheets: Sincronização
+- Secretaria ---> ServicoGuincho: Composição
+- ServicoGuincho ---> Anexo: Agregação
+- ServicoGuincho ---> Alteracao: Composição
+- Transacao ---> ServicoGuincho: Associação

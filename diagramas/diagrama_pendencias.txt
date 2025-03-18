@@ -1,0 +1,141 @@
+DIAGRAMA DE PENDÊNCIAS E PRÓXIMOS PASSOS - SISTEMA GUINCHO LACERDA
+
+1. IMPLEMENTAÇÕES PRIORITÁRIAS
+
+[Sistema de Compactação]
+  ├── Desenvolvimento
+  │   ├── Classe CompressaoService
+  │   ├── Integração ZIP
+  │   └── Gestão Metadados
+  │
+  ├── Funcionalidades
+  │   ├── Compressão Automática
+  │   ├── Descompressão sob Demanda
+  │   └── Verificação Integridade
+  │
+  └── Armazenamento
+      ├── Estrutura Diretórios
+      ├── Naming Convention
+      └── Política Retenção
+
+[Gestão de Cache]
+  ├── Local Storage
+  │   ├── Implementar LRU Cache
+  │   ├── Definir TTL
+  │   └── Cache Invalidation
+  │
+  ├── Memória
+  │   ├── Session Cache
+  │   ├── Query Cache
+  │   └── Object Cache
+  │
+  └── Sincronização
+      ├── Cache Warming
+      ├── Background Refresh
+      └── Clear Policies
+
+2. MELHORIAS DE INTERFACE
+
+[Dashboard Secretária]
+  ├── Visão Geral
+  │   ├── KPIs Principais
+  │   ├── Alertas
+  │   └── Quick Actions
+  │
+  ├── Listagens
+  │   ├── Filtros Avançados
+  │   ├── Bulk Actions
+  │   └── Export Options
+  │
+  └── Anexos
+      ├── Preview Integrado
+      ├── Drag & Drop
+      └── Progress Tracking
+
+3. INTEGRAÇÕES PENDENTES
+
+[Google Platform]
+  ├── Drive API
+  │   ├── Quota Management
+  │   ├── Batch Operations
+  │   └── Rate Limiting
+  │
+  ├── Sheets API
+  │   ├── Real-time Updates
+  │   ├── Conflict Resolution
+  │   └── Formula Handling
+  │
+  └── Authentication
+      ├── OAuth Refresh
+      ├── Token Management
+      └── Error Handling
+
+4. SEGURANÇA E MONITORAMENTO
+
+[Implementações]
+  ├── Auditoria
+  │   ├── Log Detalhado
+  │   ├── Trilha Alterações
+  │   └── Alertas
+  │
+  ├── Backup
+  │   ├── Rotina Automática
+  │   ├── Verificação
+  │   └── Restore Test
+  │
+  └── Monitoramento
+      ├── Health Check
+      ├── Performance
+      └── Usage Metrics
+
+5. DOCUMENTAÇÃO NECESSÁRIA
+
+[Técnica]
+  ├── API Reference
+  │   ├── Endpoints
+  │   ├── Parâmetros
+  │   └── Respostas
+  │
+  ├── Código
+  │   ├── Docstrings
+  │   ├── Comentários
+  │   └── Exemplos
+  │
+  └── Deployment
+      ├── Setup Guide
+      ├── Config Files
+      └── Dependencies
+
+[Usuário]
+  ├── Manuais
+  │   ├── Administrador
+  │   ├── Secretária
+  │   └── Geral
+  │
+  ├── Tutorials
+  │   ├── Quick Start
+  │   ├── Workflows
+  │   └── FAQ
+  │
+  └── Vídeos
+      ├── Treinamento
+      ├── Demonstrações
+      └── Dicas
+
+6. TESTES
+
+[Implementar]
+  ├── Unitários
+  │   ├── Classes Core
+  │   ├── Validações
+  │   └── Helpers
+  │
+  ├── Integração
+  │   ├── APIs
+  │   ├── Banco Dados
+  │   └── Google Services
+  │
+  └── E2E
+      ├── Fluxos Principais
+      ├── Edge Cases
+      └── Performance

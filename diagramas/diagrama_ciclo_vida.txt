@@ -1,0 +1,128 @@
+DIAGRAMA DE CICLO DE VIDA DOS DADOS - SISTEMA GUINCHO LACERDA
+
+1. CRIAÇÃO DE SECRETÁRIA
+[Admin Cria Secretária]
+  |
+  ├── [Sistema]
+  |     ├── Validação de Dados
+  |     └── Geração de Credenciais
+  |
+  ├── [Google Platform]
+  |     ├── Cria Planilhas
+  |     |     ├── servicos_<email>.sheet
+  |     |     ├── transacoes_<email>.sheet
+  |     |     └── relatorios_<email>.sheet
+  |     |
+  |     └── Configura Drive
+  |           ├── pasta_principal_<email>
+  |           ├── anexos_<email>
+  |           └── Define Permissões
+  |
+  └── [Banco Local]
+        ├── Insere Usuário
+        ├── Cria Referências
+        └── Registra Estrutura
+
+2. CICLO DE DADOS
+[Dados Operacionais]
+  |
+  ├── Criação
+  |     ├── Interface Web
+  |     ├── Validação Local
+  |     └── Persistência Inicial
+  |
+  ├── Processamento
+  |     ├── Regras de Negócio
+  |     ├── Cálculos
+  |     └── Transformações
+  |
+  ├── Armazenamento
+  |     ├── Cache Local
+  |     ├── Banco SQLite
+  |     └── Google Platform
+  |
+  └── Arquivamento
+        ├── Após 30 dias
+        ├── Compactação
+        └── Backup
+
+3. CICLO DE ANEXOS
+[Documento]
+  |
+  ├── Upload
+  |     ├── Validação
+  |     ├── Compressão
+  |     └── Metadata
+  |
+  ├── Armazenamento
+  |     ├── Drive (principal)
+  |     └── Local (cache)
+  |
+  ├── Utilização
+  |     ├── Visualização
+  |     ├── Download
+  |     └── Compartilhamento
+  |
+  └── Arquivamento
+        ├── Zip Consolidado
+        ├── Backup Cloud
+        └── Limpeza Cache
+
+4. CICLO DE SINCRONIZAÇÃO
+[Dados em Trânsito]
+  |
+  ├── Detecção
+  |     ├── Alterações Locais
+  |     ├── Alterações Cloud
+  |     └── Conflitos
+  |
+  ├── Resolução
+  |     ├── Merge Automático
+  |     ├── Notificação Manual
+  |     └── Log Alterações
+  |
+  └── Confirmação
+        ├── Validação
+        ├── Commit
+        └── Notificação
+
+5. CICLO DE VIDA DO SERVIÇO
+[Serviço Guincho]
+  |
+  ├── Registro
+  |     ├── Dados Básicos
+  |     ├── Vinculações
+  |     └── Anexos
+  |
+  ├── Execução
+  |     ├── Atualizações Status
+  |     ├── Adição Documentos
+  |     └── Registro Atividades
+  |
+  ├── Faturamento
+  |     ├── Geração Transação
+  |     ├── Aprovações
+  |     └── Confirmação
+  |
+  └── Encerramento
+        ├── Validação Final
+        ├── Arquivamento
+        └── Relatórios
+
+6. LIMPEZA E MANUTENÇÃO
+[Rotinas Automáticas]
+  |
+  ├── Diária
+  |     ├── Backup Incremental
+  |     ├── Sync Check
+  |     └── Log Rotation
+  |
+  ├── Semanal
+  |     ├── Cleanup Cache
+  |     ├── Compress Logs
+  |     └── Verify Integrity
+  |
+  └── Mensal
+        ├── Full Backup
+        ├── Archive Old Data
+        └── Performance Check

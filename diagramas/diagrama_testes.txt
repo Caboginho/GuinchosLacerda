@@ -1,0 +1,176 @@
+DIAGRAMA DE TESTES E QUALIDADE - SISTEMA GUINCHO LACERDA
+
+1. TESTES UNITÁRIOS
+
+[Classes Base]
+  ├── Usuario
+  │   ├── Autenticação
+  │   ├── Permissões
+  │   └── Validações
+  │
+  ├── Secretaria
+  │   ├── Registro Serviços
+  │   ├── Gestão Anexos
+  │   └── Sincronização
+  │
+  └── Administrador
+      ├── Gestão Usuários
+      ├── Aprovações
+      └── Relatórios
+
+[Serviços]
+  ├── ServicoGuincho
+  │   ├── Ciclo de Vida
+  │   ├── Cálculos
+  │   └── Validações
+  │
+  ├── Transacao
+  │   ├── Vinculações
+  │   ├── Aprovações
+  │   └── Fechamento
+  │
+  └── Anexo
+      ├── Compressão
+      ├── Upload/Download
+      └── Validações
+
+2. TESTES DE INTEGRAÇÃO
+
+[Banco de Dados]
+  ├── CRUD Operations
+  │   ├── Inserções
+  │   ├── Atualizações
+  │   └── Exclusões
+  │
+  ├── Transações
+  │   ├── Commit
+  │   ├── Rollback
+  │   └── Concorrência
+  │
+  └── Queries
+      ├── Performance
+      ├── Índices
+      └── Join Operations
+
+[Google APIs]
+  ├── Drive
+  │   ├── Upload Files
+  │   ├── Download Files
+  │   └── Permissions
+  │
+  ├── Sheets
+  │   ├── Read Operations
+  │   ├── Write Operations
+  │   └── Formulas
+  │
+  └── Auth
+      ├── Token Refresh
+      ├── Permissions
+      └── Error Handling
+
+3. TESTES E2E
+
+[Fluxos Completos]
+  ├── Cadastro Secretária
+  │   ├── Criação Conta
+  │   ├── Setup Planilhas
+  │   └── Verificação Acessos
+  │
+  ├── Serviço Completo
+  │   ├── Registro
+  │   ├── Anexos
+  │   ├── Aprovações
+  │   └── Fechamento
+  │
+  └── Ciclo Financeiro
+      ├── Transação
+      ├── Aprovação
+      └── Relatórios
+
+4. TESTES DE PERFORMANCE
+
+[Carga]
+  ├── Concurrent Users
+  │   ├── 10 usuários
+  │   ├── 50 usuários
+  │   └── 100 usuários
+  │
+  ├── Data Volume
+  │   ├── 1000 registros
+  │   ├── 10000 registros
+  │   └── 100000 registros
+  │
+  └── Operations/Second
+      ├── Leituras
+      ├── Escritas
+      └── Sincronização
+
+[Stress]
+  ├── Limites Sistema
+  │   ├── CPU Usage
+  │   ├── Memory Usage
+  │   └── Disk I/O
+  │
+  ├── Network
+  │   ├── Latency
+  │   ├── Bandwidth
+  │   └── Timeout
+  │
+  └── Recovery
+      ├── Failover
+      ├── Data Loss
+      └── Auto-recovery
+
+5. QUALIDADE DE CÓDIGO
+
+[Análise Estática]
+  ├── Style Guide
+  │   ├── PEP 8
+  │   ├── Type Hints
+  │   └── Docstrings
+  │
+  ├── Complexity
+  │   ├── Cyclomatic
+  │   ├── Cognitive
+  │   └── Maintenance
+  │
+  └── Security
+      ├── Vulnerabilities
+      ├── Best Practices
+      └── Code Review
+
+6. MONITORAMENTO
+
+[Métricas]
+  ├── Performance
+  │   ├── Response Time
+  │   ├── Throughput
+  │   └── Error Rate
+  │
+  ├── Resources
+  │   ├── CPU/Memory
+  │   ├── Disk Usage
+  │   └── Network
+  │
+  └── Business
+      ├── User Activity
+      ├── Data Growth
+      └── Feature Usage
+
+7. AUTOMAÇÃO
+
+[CI/CD]
+  ├── Build
+  │   ├── Dependencies
+  │   ├── Compilation
+  │   └── Packaging
+  │
+  ├── Test
+  │   ├── Unit Tests
+  │   ├── Integration
+  │   └── Coverage
+  │
+  └── Deploy
+      ├── Staging
+      ├── Production
+      └── Rollback

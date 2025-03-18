@@ -1,0 +1,95 @@
+DIAGRAMA DE FLUXO DE DADOS - SISTEMA GUINCHO LACERDA
+
+1. FLUXO PRINCIPAL DE DADOS
+[Sistema]
+  ├── [BancoDados Local]
+  │    └── {Tabelas}
+  │         ├── usuarios
+  │         ├── guinchos
+  │         ├── servicos
+  │         └── transacoes
+  │
+  └── [Google Platform]
+       ├── [Drive]
+       │    └── {Pastas por Secretária}
+       │         ├── anexos_compactados
+       │         └── backups
+       │
+       └── [Sheets]
+            └── {Planilhas por Secretária}
+                ├── servicos
+                ├── transacoes
+                └── relatorios
+
+2. FLUXO DE ACESSO ADMINISTRATIVO
+[Administrador]
+  ├── Seleciona Secretária
+  │    └── [Sistema]
+  │         ├── Carrega Planilhas
+  │         ├── Sincroniza Local
+  │         └── Prepara Interface
+  │
+  ├── Manipula Dados
+  │    └── [Sistema]
+  │         ├── Atualiza Local
+  │         ├── Sincroniza Drive
+  │         └── Notifica Secretária
+  │
+  └── Gera Relatórios
+       └── [Sistema]
+            ├── Consolida Dados
+            ├── Formata Saída
+            └── Exporta Resultados
+
+3. FLUXO DE ACESSO SECRETÁRIA
+[Secretária]
+  ├── Login
+  │    └── [Sistema]
+  │         ├── Carrega Perfil
+  │         ├── Sincroniza Dados
+  │         └── Prepara Workspace
+  │
+  ├── Operações
+  │    ├── Serviços
+  │    │    ├── Registro
+  │    │    ├── Atualização
+  │    │    └── Anexos
+  │    │
+  │    └── Transações
+  │         ├── Vinculação
+  │         ├── Valores
+  │         └── Aprovações
+  │
+  └── Sincronização
+       └── [Sistema]
+            ├── Compacta Anexos
+            ├── Atualiza Drive
+            └── Confirma Operação
+
+4. FLUXO DE DOCUMENTOS
+[Upload]
+  ├── Recebe Arquivo
+  ├── Valida Formato
+  ├── Compacta
+  ├── Gera Nome Único
+  │    └── {email_data_hora}
+  ├── Salva Drive
+  └── Registra Metadados
+
+[Download]
+  ├── Busca Metadados
+  ├── Localiza Drive
+  ├── Descompacta
+  ├── Valida Hash
+  └── Entrega Arquivo
+
+5. FLUXO DE SINCRONIZAÇÃO
+[Trigger de Sincronização]
+  ├── Alteração Local
+  │    └── Marca para Sync
+  ├── Login Usuário
+  │    └── Verifica Pendências
+  ├── Timer Sistema
+  │    └── Sync Periódico
+  └── Ação Manual
+       └── Força Sync

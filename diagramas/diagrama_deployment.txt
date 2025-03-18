@@ -1,0 +1,111 @@
+DIAGRAMA DE DEPLOYMENT - SISTEMA GUINCHO LACERDA
+
+1. AMBIENTE DE PRODUÇÃO
+
+[Cliente Web] <<device>>
+  |
+  ├── [Navegador] <<runtime>>
+  |     ├── Interface HTML/CSS/JS
+  |     ├── Bootstrap Components
+  |     └── AJAX Client
+  |
+  └── [Cache Local] <<storage>>
+        └── LocalStorage/SessionStorage
+
+[Servidor Aplicação] <<device>>
+  |
+  ├── [Flask Server] <<runtime>>
+  |     ├── Python Environment
+  |     ├── Blueprint Modules
+  |     └── Session Manager
+  |
+  ├── [SQLite] <<database>>
+  |     ├── Data Files
+  |     └── Backup Files
+  |
+  └── [File System] <<storage>>
+        ├── Temp Files
+        ├── Logs
+        └── Cached Files
+
+[Google Cloud] <<platform>>
+  |
+  ├── [Drive Service] <<service>>
+  |     ├── File Storage
+  |     └── Access Control
+  |
+  └── [Sheets Service] <<service>>
+        ├── Data Tables
+        └── Formulas
+
+2. CONEXÕES FÍSICAS
+
+[Cliente] <<>> [Servidor]
+  ├── Protocol: HTTPS
+  ├── Port: 443
+  └── Mode: Bi-directional
+
+[Servidor] <<>> [Google Cloud]
+  ├── Protocol: OAuth 2.0
+  ├── APIs: REST
+  └── Security: SSL/TLS
+
+3. DISTRIBUIÇÃO DE COMPONENTES
+
+[Cliente Components]
+  ├── Static Files
+  |     ├── CSS (*.css)
+  |     ├── JavaScript (*.js)
+  |     └── Images (*/src/*)
+  |
+  └── Dynamic Content
+        ├── Templates (*.html)
+        └── AJAX Data (JSON)
+
+[Server Components]
+  ├── Application Logic
+  |     ├── Routes (*.py)
+  |     ├── Classes (*.py)
+  |     └── Controllers (*.py)
+  |
+  └── Data Layer
+        ├── Database (*.db)
+        └── Cache (*/temp/*)
+
+[Cloud Components]
+  ├── Drive Structure
+  |     ├── /secretarias/*
+  |     └── /anexos/*
+  |
+  └── Sheets Structure
+        ├── servicos_*.sheet
+        └── transacoes_*.sheet
+
+4. ESCALABILIDADE
+
+[Load Distribution]
+  ├── Client-Side Caching
+  ├── Server-Side Caching
+  └── API Rate Limiting
+
+[Backup Strategy]
+  ├── Local Database
+  |     ├── Daily Backup
+  |     └── Version Control
+  |
+  └── Cloud Data
+        ├── Auto-sync
+        └── Revision History
+
+5. MONITORAMENTO
+
+[Health Check Points]
+  ├── Server Status
+  ├── Database Connections
+  ├── API Response Time
+  └── Storage Usage
+
+[Alert System]
+  ├── Error Logging
+  ├── Performance Metrics
+  └── Security Events

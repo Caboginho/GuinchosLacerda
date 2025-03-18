@@ -1,0 +1,132 @@
+DIAGRAMA DE INTEGRAÇÃO - SISTEMA GUINCHO LACERDA
+
+1. ESTRUTURA GOOGLE PLATFORM
+
+[Google Drive]
+  ├── Pastas Sistema
+  │   ├── /admin
+  │   │   ├── templates/
+  │   │   └── configuracoes/
+  │   │
+  │   ├── /secretarias/
+  │   │   ├── {email1}/
+  │   │   │   ├── anexos/
+  │   │   │   └── backups/
+  │   │   │
+  │   │   └── {emailN}/
+  │   │
+  │   └── /sistema/
+  │       ├── logs/
+  │       └── backups/
+  │
+  └── Controle
+      ├── Permissões
+      ├── Quotas
+      └── Versões
+
+[Google Sheets]
+  ├── Planilhas Sistema
+  │   ├── usuarios_master
+  │   └── configuracoes
+  │
+  └── Planilhas Secretária
+      ├── {email1}/
+      │   ├── servicos
+      │   ├── transacoes
+      │   └── relatorios
+      │
+      └── {emailN}/
+
+2. FLUXO DE DADOS
+
+[Sistema Local] <-> [Google Platform]
+  ├── Inicialização
+  │   ├── Verifica Credenciais
+  │   ├── Carrega Configurações
+  │   └── Sincroniza Estrutura
+  │
+  ├── Operação
+  │   ├── Create
+  │   │   ├── Local First
+  │   │   └── Then Cloud
+  │   │
+  │   ├── Read
+  │   │   ├── Cache Check
+  │   │   └── Cloud Fetch
+  │   │
+  │   ├── Update
+  │   │   ├── Local Update
+  │   │   └── Cloud Sync
+  │   │
+  │   └── Delete
+  │       ├── Soft Delete
+  │       └── Sync Status
+  │
+  └── Sincronização
+      ├── Scheduled
+      │   ├── Every 5min
+      │   └── Check Changes
+      │
+      ├── On-Demand
+      │   ├── User Request
+      │   └── Critical Data
+      │
+      └── Failure
+          ├── Retry Logic
+          └── Manual Sync
+
+3. MAPEAMENTO DE DADOS
+
+[Local -> Cloud]
+  ├── Usuários
+  │   └── usuarios_master.sheet
+  │
+  ├── Serviços
+  │   └── servicos_{email}.sheet
+  │
+  ├── Transações
+  │   └── transacoes_{email}.sheet
+  │
+  └── Anexos
+      └── /anexos/{email}/
+
+[Cloud -> Local]
+  ├── Cache
+  │   ├── Metadata
+  │   └── Preview
+  │
+  ├── Sync
+  │   ├── Changes
+  │   └── Status
+  │
+  └── Download
+      ├── On-Demand
+      └── Auto-Fetch
+
+4. ESTRATÉGIAS DE OTIMIZAÇÃO
+
+[Batch Operations]
+  ├── Upload
+  │   ├── Queue System
+  │   └── Chunk Size
+  │
+  ├── Download
+  │   ├── Partial Sync
+  │   └── Delta Updates
+  │
+  └── Sync
+      ├── Priority Queue
+      └── Background Jobs
+
+[Cache Strategy]
+  ├── Local Storage
+  │   ├── Frequently Used
+  │   └── Recent Access
+  │
+  ├── Memory Cache
+  │   ├── Session Data
+  │   └── Quick Access
+  │
+  └── Invalidation
+      ├── Time-based
+      └── Event-based

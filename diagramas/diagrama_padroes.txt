@@ -1,0 +1,102 @@
+PADRÕES DE PROJETO - SISTEMA GUINCHO LACERDA
+
+1. PADRÕES CRIACIONAIS
+
+[Singleton]
+├── BancoDados
+│   └── Garante única instância do banco
+└── GoogleDriveSheets
+    └── Mantém única conexão com Google APIs
+
+[Factory Method]
+├── CriadorServico
+│   └── Criar diferentes tipos de serviços
+└── CriadorTransacao
+    └── Criar diferentes tipos de transações
+
+[Builder]
+└── AnexoBuilder
+    ├── Construir anexo passo a passo
+    ├── Validar formato
+    ├── Compactar
+    └── Upload
+
+2. PADRÕES ESTRUTURAIS
+
+[Adapter]
+└── GoogleDriveAdapter
+    ├── Adapta interface do Drive
+    └── Uniformiza operações de arquivo
+
+[Composite]
+└── RelatorioComposite
+    ├── Combina múltiplos relatórios
+    └── Hierarquia de dados
+
+[Proxy]
+└── CacheProxy
+    ├── Cache local de dados
+    └── Otimiza requisições
+
+3. PADRÕES COMPORTAMENTAIS
+
+[Observer]
+├── NotificacaoObserver
+│   ├── Notifica alterações
+│   └── Atualiza interfaces
+└── SincronizacaoObserver
+    ├── Monitora mudanças
+    └── Dispara sincronização
+
+[State]
+├── ServicoState
+│   └── Gerencia estados do serviço
+└── TransacaoState
+    └── Gerencia estados da transação
+
+[Strategy]
+└── SincronizacaoStrategy
+    ├── Estratégia Online
+    └── Estratégia Offline
+
+4. IMPLEMENTAÇÃO DOS PADRÕES
+
+[Camada de Dados]
+├── Singleton
+│   ├── Conexão banco
+│   └── Conexão Google
+├── Proxy
+│   └── Cache de dados
+└── Observer
+    └── Sincronização
+
+[Camada de Negócios]
+├── Factory
+│   ├── Serviços
+│   └── Transações
+├── State
+│   └── Máquinas de estado
+└── Strategy
+    └── Sincronização
+
+[Camada de Apresentação]
+├── Composite
+│   └── Relatórios
+└── Observer
+    └── Atualizações UI
+
+5. BENEFÍCIOS DOS PADRÕES
+
+[Manutenibilidade]
+├── Código organizado
+├── Baixo acoplamento
+└── Alta coesão
+
+[Escalabilidade]
+├── Fácil adicionar funcionalidades
+└── Extensibilidade natural
+
+[Performance]
+├── Cache otimizado
+├── Conexões eficientes
+└── Sincronização inteligente

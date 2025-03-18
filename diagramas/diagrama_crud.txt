@@ -1,0 +1,112 @@
+DIAGRAMA DE FLUXOS CRUD - SISTEMA GUINCHO LACERDA
+
+1. OPERAÇÕES CREATE
+[Interface] -> [Controller]
+  |
+  ├── Validação Dados
+  |     └── Regras Negócio
+  |
+  ├── [BancoDados Local]
+  |     ├── Gera ID
+  |     ├── Insere Registro
+  |     └── Marca Sync Pendente
+  |
+  └── [Google Cloud]
+       ├── [Sheets]
+       |     ├── Append Row
+       |     └── Atualiza Índices
+       |
+       └── [Drive] (se anexo)
+             ├── Compacta
+             ├── Upload
+             └── Registra Metadata
+
+2. OPERAÇÕES READ
+[Query]
+  |
+  ├── [Cache Local]
+  |     ├── Verifica Atualização
+  |     └── Retorna se Atual
+  |
+  ├── [BancoDados]
+  |     ├── Busca Registros
+  |     └── Atualiza Cache
+  |
+  └── [Google Sheets]
+        ├── Verifica Mudanças
+        └── Sincroniza se Necessário
+
+3. OPERAÇÕES UPDATE
+[Alteração]
+  |
+  ├── [BancoDados]
+  |     ├── Update Local
+  |     ├── Registra Timestamp
+  |     └── Marca para Sync
+  |
+  └── [Google Platform]
+        ├── [Sheets]
+        |     ├── Localiza Linha
+        |     └── Atualiza Células
+        |
+        └── [Drive] (se anexo)
+              ├── Update Metadata
+              └── Update Arquivo
+
+4. OPERAÇÕES DELETE
+[Exclusão Lógica]
+  |
+  ├── [BancoDados]
+  |     ├── Marca Inativo
+  |     └── Registra Timestamp
+  |
+  └── [Google Sheets]
+        ├── Marca Status
+        └── Move para Histórico
+
+5. SINCRONIZAÇÃO BIDIRECIONAL
+[Trigger Sync]
+  |
+  ├── [Check Updates]
+  |     ├── Local Changes
+  |     └── Cloud Changes
+  |
+  ├── [Resolve Conflitos]
+  |     ├── Timestamp Compare
+  |     └── Prioridade Cloud
+  |
+  └── [Apply Changes]
+        ├── Update Local
+        └── Update Cloud
+
+6. FLUXO DE ANEXOS
+[Upload Arquivo]
+  |
+  ├── [Preparação]
+  |     ├── Valida Formato
+  |     ├── Gera Hash
+  |     └── Compacta
+  |
+  ├── [Google Drive]
+  |     ├── Upload File
+  |     ├── Set Permissions
+  |     └── Get URL
+  |
+  └── [BancoDados]
+        ├── Salva Metadata
+        └── Vincula Registro
+
+7. TRATAMENTO DE ERROS
+[Falha Operação]
+  |
+  ├── [Rollback]
+  |     ├── Reverte Local
+  |     └── Marca Pendência
+  |
+  ├── [Retry Queue]
+  |     ├── Agenda Retry
+  |     └── Max Tentativas
+  |
+  └── [Notificação]
+        ├── Log Erro
+        └── Alerta Admin

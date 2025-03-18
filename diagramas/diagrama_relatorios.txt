@@ -1,0 +1,125 @@
+DIAGRAMA DE RELATÓRIOS E MÉTRICAS - SISTEMA GUINCHO LACERDA
+
+1. RELATÓRIOS ADMINISTRATIVOS
+
+[Dashboard Principal]
+  ├── Métricas Gerais
+  │   ├── Total Serviços
+  │   ├── Total Transações
+  │   ├── Média Diária
+  │   └── Projeção Mensal
+  │
+  ├── Performance
+  │   ├── Tempo Médio Execução
+  │   ├── Taxa Aprovação
+  │   ├── SLA Cumprido
+  │   └── Satisfação Cliente
+  │
+  └── Financeiro
+      ├── Receita Total
+      ├── Custos
+      ├── Margem
+      └── Projeções
+
+2. RELATÓRIOS POR SECRETÁRIA
+
+[Performance Individual]
+  ├── Serviços
+  │   ├── Volume Diário
+  │   ├── Status Distribution
+  │   ├── Tempo Médio
+  │   └── Pendências
+  │
+  ├── Transações
+  │   ├── Volume Financeiro
+  │   ├── Taxa Aprovação
+  │   ├── Tempo Aprovação
+  │   └── Rejeitadas
+  │
+  └── Documentação
+      ├── Anexos/Serviço
+      ├── Completude
+      └── Qualidade
+
+3. MÉTRICAS DE SISTEMA
+
+[Performance Técnica]
+  ├── Sincronização
+  │   ├── Taxa Sucesso
+  │   ├── Tempo Médio
+  │   ├── Falhas
+  │   └── Retry Rate
+  │
+  ├── Storage
+  │   ├── Uso Local
+  │   ├── Uso Drive
+  │   ├── Taxa Compressão
+  │   └── Crescimento
+  │
+  └── API/Backend
+      ├── Response Time
+      ├── Error Rate
+      ├── Cache Hit
+      └── Queue Status
+
+4. RELATÓRIOS FINANCEIROS
+
+[Análise Financeira]
+  ├── Por Período
+  │   ├── Diário
+  │   ├── Semanal
+  │   ├── Mensal
+  │   └── Anual
+  │
+  ├── Por Tipo
+  │   ├── Serviços
+  │   ├── Categorias
+  │   └── Regiões
+  │
+  └── Indicadores
+      ├── ROI
+      ├── Margem
+      └── Tendências
+
+5. EXPORTAÇÃO E DISTRIBUIÇÃO
+
+[Formatos]
+  ├── PDF
+  │   ├── Relatórios Executivos
+  │   └── Documentação
+  │
+  ├── Excel
+  │   ├── Dados Brutos
+  │   └── Análises
+  │
+  └── Dashboard
+      ├── Real-time
+      └── Interativo
+
+[Distribuição]
+  ├── Automática
+  │   ├── Schedule
+  │   ├── Eventos
+  │   └── Thresholds
+  │
+  └── Manual
+      ├── On-demand
+      └── Customizada
+
+6. ALERTAS E NOTIFICAÇÕES
+
+[Monitoramento]
+  ├── KPIs
+  │   ├── Abaixo Meta
+  │   ├── Acima Esperado
+  │   └── Tendências
+  │
+  ├── Operacional
+  │   ├── SLA Risk
+  │   ├── Capacity
+  │   └── Bottlenecks
+  │
+  └── Compliance
+      ├── Documentação
+      ├── Aprovações
+      └── Auditorias

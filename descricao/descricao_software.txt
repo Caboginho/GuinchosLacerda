@@ -1,0 +1,64 @@
+SISTEMA DE GERENCIAMENTO DE SERVIÇOS DE GUINCHO
+
+1. VISÃO GERAL
+O sistema GuinchoLacerda é uma aplicação web para gerenciamento distribuído de serviços de guincho, 
+permitindo que múltiplas secretárias gerenciem seus próprios dados através de integração com 
+Google Sheets/Drive, mantendo sincronização com banco de dados local.
+
+2. ARQUITETURA DO SISTEMA
+2.1 Camada de Dados
+- Banco Local (SQLite): Dados operacionais e cache
+- Google Sheets: Armazenamento distribuído por secretária
+- Google Drive: Repositório de anexos compactados
+
+2.2 Estrutura de Dados por Secretária
+- Planilha de Serviços
+- Planilha de Transações
+- Pasta de Anexos
+- Configurações e Permissões
+
+3. FUNCIONALIDADES PRINCIPAIS
+
+3.1 Administrador
+- Gerenciamento completo de usuários
+- Cadastro e configuração de secretárias
+- Acesso a dados de todas as secretárias
+- Relatórios consolidados
+- Aprovação de transações especiais
+
+3.2 Secretária
+- Acesso exclusivo aos seus dados
+- Gestão de serviços e transações
+- Upload/Download de anexos
+- Visualização de relatórios próprios
+
+4. SINCRONIZAÇÃO E PERSISTÊNCIA
+- Dados persistidos primariamente no Google Sheets
+- Sincronização sob demanda com banco local
+- Anexos compactados no Google Drive
+- Backup automático de dados
+
+5. SEGURANÇA E CONTROLE
+- Autenticação por perfil
+- Isolamento de dados por secretária
+- Logs de operações
+- Controle de versão de documentos
+
+6. PENDÊNCIAS E MELHORIAS
+6.1 Desenvolvimento
+- Implementar compactação automática de anexos
+- Criar sistema de notificações
+- Desenvolver dashboard por secretária
+- Implementar backup automático
+
+6.2 Funcionalidades
+- Relatórios personalizados
+- Exportação de dados
+- Sistema de busca avançada
+- Histórico de alterações
+
+6.3 Infraestrutura
+- Otimização de sincronização
+- Cache inteligente
+- Gestão de quota do Google Drive
+- Monitoramento de performance

@@ -1,0 +1,120 @@
+DIAGRAMA DE SEGURANÇA E BACKUP - SISTEMA GUINCHO LACERDA
+
+1. CAMADAS DE SEGURANÇA
+
+[Autenticação]
+  ├── Login
+  │   ├── Validação Credenciais
+  │   ├── Rate Limiting
+  │   └── Bloqueio após 3 tentativas
+  │
+  ├── Sessão
+  │   ├── Token JWT
+  │   ├── Timeout 30min
+  │   └── Renovação Automática
+  │
+  └── Permissões
+      ├── RBAC (Role Based Access Control)
+      ├── ACL (Access Control List)
+      └── Contexto Secretária
+
+2. PROTEÇÃO DE DADOS
+
+[Dados em Repouso]
+  ├── Banco Local
+  │   ├── Encryption at Rest
+  │   ├── Secure File System
+  │   └── Access Controls
+  │
+  └── Google Cloud
+      ├── Drive Encryption
+      ├── Sheets Protection
+      └── API Security
+
+[Dados em Trânsito]
+  ├── HTTPS/TLS
+  ├── SSL Certificates
+  └── API Tokens
+
+3. ESTRATÉGIA DE BACKUP
+
+[Backup Local]
+  ├── Database
+  │   ├── Full Backup Diário
+  │   ├── Incremental 6h
+  │   └── Transaction Logs
+  │
+  ├── Anexos
+  │   ├── Zip Backup
+  │   └── Checksums
+  │
+  └── Configurações
+      ├── System Settings
+      └── User Preferences
+
+[Backup Cloud]
+  ├── Google Drive
+  │   ├── Versioning
+  │   ├── Snapshot Diário
+  │   └── Retention Policy
+  │
+  └── Google Sheets
+      ├── Version History
+      ├── Change Tracking
+      └── Audit Logs
+
+4. RECUPERAÇÃO DE DESASTRES
+
+[Cenários de Falha]
+  ├── Perda de Conexão
+  │   ├── Modo Offline
+  │   ├── Queue Operations
+  │   └── Auto-Sync
+  │
+  ├── Corrupção de Dados
+  │   ├── Restore Points
+  │   ├── Data Validation
+  │   └── Integrity Check
+  │
+  └── Sistema Down
+      ├── Failover Process
+      ├── Emergency Access
+      └── Data Recovery
+
+5. AUDITORIA E LOGS
+
+[Sistema de Logs]
+  ├── Operações
+  │   ├── CRUD Actions
+  │   ├── User Activities
+  │   └── System Events
+  │
+  ├── Segurança
+  │   ├── Access Attempts
+  │   ├── Permission Changes
+  │   └── Security Alerts
+  │
+  └── Compliance
+      ├── Audit Trail
+      ├── Data Access
+      └── Changes History
+
+6. POLÍTICAS DE SEGURANÇA
+
+[Senhas]
+  ├── Mínimo 8 caracteres
+  ├── Complexidade Obrigatória
+  ├── Histórico 5 últimas
+  └── Expiração 90 dias
+
+[Acesso]
+  ├── 2FA Opcional
+  ├── IP Whitelist
+  ├── Device Registration
+  └── Session Control
+
+[Dados]
+  ├── Classificação
+  ├── Retenção
+  ├── Anonimização
+  └── Exclusão Segura

@@ -1,0 +1,139 @@
+DIAGRAMA DE BANCO DE DADOS - SISTEMA GUINCHO LACERDA
+
+1. ESTRUTURA DE TABELAS
+
+[usuarios]
+  ├── id (PK)
+  ├── nome
+  ├── email (UNIQUE)
+  ├── senha_hash
+  ├── tipo
+  ├── cnh
+  ├── celular
+  ├── justificativa
+  ├── created_at
+  └── updated_at
+
+[servicos_guincho]
+  ├── id (PK)
+  ├── secretaria_id (FK -> usuarios.id)
+  ├── tipo_servico
+  ├── status
+  ├── valor
+  ├── data_solicitacao
+  ├── data_execucao
+  ├── cliente_nome
+  ├── cliente_telefone
+  ├── veiculo_placa
+  ├── local_origem
+  ├── local_destino
+  └── observacoes
+
+[transacoes]
+  ├── id (PK)
+  ├── servico_id (FK -> servicos_guincho.id)
+  ├── secretaria_id (FK -> usuarios.id)
+  ├── tipo
+  ├── valor
+  ├── data
+  ├── status_aprovacao
+  ├── aprovado_por (FK -> usuarios.id)
+  └── observacoes
+
+[anexos]
+  ├── id (PK)
+  ├── servico_id (FK -> servicos_guincho.id)
+  ├── transacao_id (FK -> transacoes.id)
+  ├── nome_arquivo
+  ├── caminho_drive
+  ├── hash
+  ├── tipo_arquivo
+  ├── tamanho
+  ├── data_upload
+  └── secretaria_email
+
+[historico_alteracoes]
+  ├── id (PK)
+  ├── tabela
+  ├── registro_id
+  ├── campo
+  ├── valor_anterior
+  ├── valor_novo
+  ├── usuario_id (FK -> usuarios.id)
+  └── data_alteracao
+
+2. RELACIONAMENTOS
+
+[usuarios] 1 -> N [servicos_guincho]
+  └── Secretária registra múltiplos serviços
+
+[usuarios] 1 -> N [transacoes]
+  └── Secretária registra múltiplas transações
+
+[transacoes] 1 -> 1 [servicos_guincho]
+  └── Transação pode ter um serviço
+
+[servicos_guincho] 1 -> N [anexos]
+  └── Serviço pode ter múltiplos anexos
+
+[transacoes] 1 -> N [anexos]
+  └── Transação pode ter múltiplos anexos
+
+3. ÍNDICES
+
+[usuarios]
+  ├── idx_email (UNIQUE)
+  └── idx_tipo
+
+[servicos_guincho]
+  ├── idx_secretaria
+  ├── idx_status
+  └── idx_data
+
+[transacoes]
+  ├── idx_servico
+  ├── idx_secretaria
+  └── idx_data
+
+[anexos]
+  ├── idx_servico
+  └── idx_transacao
+
+4. TRIGGERS
+
+[Before Insert servicos_guincho]
+  └── Validar secretária ativa
+
+[After Insert transacoes]
+  └── Atualizar status serviço
+
+[Before Delete]
+  └── Prevenir exclusão física
+
+5. VIEWS
+
+[vw_servicos_completos]
+  ├── Dados do serviço
+  ├── Dados da secretária
+  └── Contagem anexos
+
+[vw_transacoes_aprovadas]
+  ├── Dados da transação
+  ├── Dados do serviço
+  └── Aprovador
+
+6. CONSTRAINTS
+
+[Integridade Referencial]
+  ├── CASCADE: Nenhum
+  ├── SET NULL: Aprovador
+  └── RESTRICT: Demais FKs
+
+[Check Constraints]
+  ├── valor >= 0
+  ├── status IN (lista_valida)
+  └── tipo IN (lista_valida)
+
+[Unique Constraints]
+  ├── usuario.email
+  └── anexo.hash

@@ -1,0 +1,144 @@
+DIAGRAMA DE VALIDAÇÕES E REGRAS DE NEGÓCIO - SISTEMA GUINCHO LACERDA
+
+1. VALIDAÇÕES DE ENTRADA
+
+[Interface Cliente]
+  ├── Formulários
+  │   ├── Campos Obrigatórios
+  │   │   ├── Validação Visual
+  │   │   ├── Mensagens Contextuais
+  │   │   └── Bloqueio Submit
+  │   │
+  │   ├── Formatos
+  │   │   ├── Email (regex)
+  │   │   ├── Telefone (máscara)
+  │   │   ├── CPF/CNPJ (algoritmo)
+  │   │   └── Datas (calendário)
+  │   │
+  │   └── Limites
+  │       ├── Tamanho Texto
+  │       ├── Valores Numéricos
+  │       └── Tamanho Arquivos
+
+2. VALIDAÇÕES DE NEGÓCIO
+
+[Camada Serviço]
+  ├── Serviços Guincho
+  │   ├── Novo Serviço
+  │   │   ├── Secretária Ativa
+  │   │   ├── Horário Permitido
+  │   │   └── Limite Diário
+  │   │
+  │   ├── Alteração Status
+  │   │   ├── Transição Válida
+  │   │   ├── Permissão Usuário
+  │   │   └── Documentação Necessária
+  │   │
+  │   └── Finalização
+  │       ├── Anexos Obrigatórios
+  │       ├── Dados Completos
+  │       └── Aprovações Necessárias
+
+[Camada Financeira]
+  ├── Transações
+  │   ├── Criação
+  │   │   ├── Vínculo Serviço
+  │   │   ├── Valor Permitido
+  │   │   └── Categoria Válida
+  │   │
+  │   ├── Aprovação
+  │   │   ├── Nível Necessário
+  │   │   ├── Limite Autorizado
+  │   │   └── Documentação Suporte
+  │   │
+  │   └── Fechamento
+  │       ├── Conciliação
+  │       ├── Comprovantes
+  │       └── Assinaturas
+
+3. VALIDAÇÕES DE SISTEMA
+
+[Persistência]
+  ├── Banco Local
+  │   ├── Integridade Referencial
+  │   ├── Unicidade
+  │   └── Constraints
+  │
+  ├── Google Sheets
+  │   ├── Formato Células
+  │   ├── Fórmulas
+  │   └── Validações Planilha
+  │
+  └── Google Drive
+      ├── Estrutura Pastas
+      ├── Permissões
+      └── Quotas
+
+4. REGRAS DE ANEXOS
+
+[Upload]
+  ├── Arquivos
+  │   ├── Tipos Permitidos
+  │   │   ├── Imagens (jpg, png)
+  │   │   ├── Documentos (pdf, doc)
+  │   │   └── Planilhas (xls)
+  │   │
+  │   ├── Tamanho Máximo
+  │   │   ├── Individual: 10MB
+  │   │   └── Total: 50MB/serviço
+  │   │
+  │   └── Nomeação
+  │       ├── Padrão: {email}_{data}_{tipo}
+  │       └── Sem Caracteres Especiais
+
+[Processamento]
+  ├── Compactação
+  │   ├── Algoritmo: zip
+  │   ├── Nível: máximo
+  │   └── Preservar Metadados
+  │
+  ├── Validação
+  │   ├── Antivírus
+  │   ├── Integridade
+  │   └── Formato Correto
+  │
+  └── Armazenamento
+      ├── Hierarquia Pastas
+      ├── Versionamento
+      └── Backup
+
+5. REGRAS DE SINCRONIZAÇÃO
+
+[Prioridades]
+  ├── Imediata
+  │   ├── Transações Financeiras
+  │   ├── Status Críticos
+  │   └── Aprovações
+  │
+  ├── Normal
+  │   ├── Atualizações Rotina
+  │   ├── Anexos Novos
+  │   └── Relatórios
+  │
+  └── Background
+      ├── Histórico
+      ├── Estatísticas
+      └── Backups
+
+6. POLÍTICAS DE RETENÇÃO
+
+[Dados]
+  ├── Ativos
+  │   ├── Online: 90 dias
+  │   ├── Cache: 7 dias
+  │   └── Logs: 30 dias
+  │
+  ├── Arquivo
+  │   ├── Local: 1 ano
+  │   ├── Drive: 5 anos
+  │   └── Backup: 10 anos
+  │
+  └── Exclusão
+      ├── Soft Delete
+      ├── Hard Delete
+      └── Limpeza Automática

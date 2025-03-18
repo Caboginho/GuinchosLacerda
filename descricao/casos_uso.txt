@@ -1,0 +1,28 @@
+CASOS DE USO
+
+1. ADMINISTRADOR
+- Fazer login no sistema
+- Gerenciar usuários (CRUD)
+- Atribuir secretária a serviços
+- Atribuir secretária a transações
+- Visualizar todos os registros
+- Gerenciar anexos
+- Exportar relatórios
+- Visualizar dashboard
+
+2. SECRETÁRIA
+- Fazer login no sistema
+- Registrar serviços de guincho
+- Registrar transações
+- Anexar documentos
+- Visualizar seus registros
+- Atualizar status de serviços
+- Consultar relatórios básicos
+
+3. SISTEMA
+- Verificar permissões
+- Compactar/Descompactar anexos
+- Sincronizar com Google Drive
+- Gerar relatórios
+- Manter histórico de alterações
+- Validar dados de entrada
